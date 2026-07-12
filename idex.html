@@ -1,0 +1,4647 @@
+<html lang="vi"><head>
+  <meta charset="UTF-8">
+  <meta name="theme-color" content="#000000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+  <meta charset="UTF-8">
+  <meta name="theme-color" content="#000000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #000;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       GLOBAL HEADER
+    ══════════════════════════════════════ */
+    #global-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      height: 56px;
+      background: #060608;
+      border-bottom: 1.5px solid rgba(255,255,255,0.09);
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+    }
+
+    .header-spacer {
+      width: 36px;
+      flex-shrink: 0;
+    }
+
+    .header-brand {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .header-brand-text {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      animation: headerScale 3s ease-in-out infinite;
+    }
+    @keyframes headerScale {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.06); }
+    }
+    .hb-main {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #1565c0;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .hb-main::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(66,165,245,0.38), transparent);
+      animation: shimmer 2.8s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%   { left: -80%; }
+      100% { left: 140%; }
+    }
+    .hb-vip {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 6px;
+      padding: 2px 7px;
+      white-space: nowrap;
+    }
+
+    .header-logo {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      object-fit: cover;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      flex-shrink: 0;
+    }
+
+    /* Disable text selection for the app and menu UI */
+    body, body * {
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+
+    input, textarea, select, button {
+      user-select: text;
+      -webkit-user-select: text;
+      -ms-user-select: text;
+    }
+
+    /* ══════════════════════════════════════
+       TAB SYSTEM
+    ══════════════════════════════════════ */
+    .tab {
+  display: none;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 56px;
+}
+
+.tab.active {
+  display: flex;
+}
+
+.fade-in {
+  animation: fadeInAnim 0.5s ease forwards;
+}
+
+@keyframes fadeInAnim {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+    /* ════════════════════════════════════
+       TAB 1 — SPLASH
+    ════════════════════════════════════ */
+    #splash {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+    }
+    #splash::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.013) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.013) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      z-index: 1;
+      width: min(94vw, 360px);
+    }
+
+    .splash-avatar {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.11);
+      box-shadow: 0 0 0 7px rgba(255,255,255,0.03), 0 4px 24px rgba(0,0,0,0.9);
+      animation: fallDown 1.2s cubic-bezier(0.22,1,0.36,1) forwards, avatarBreath 3.5s 1.4s ease-in-out infinite;
+      opacity: 0;
+    }
+    @keyframes fallDown {
+      0%   { transform: translateY(-200px); opacity: 0; }
+      68%  { transform: translateY(10px); opacity: 1; }
+      84%  { transform: translateY(-4px); }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes avatarBreath {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.04); }
+    }
+
+    .splash-title {
+      font-size: clamp(20px, 5vw, 36px);
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #1565c0;
+      animation: riseUp 0.9s 1s ease forwards;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    @keyframes riseUp { to { opacity: 1; transform: translateY(0); } }
+
+    .splash-info-box {
+      width: 100%;
+      background: rgba(255,255,255,0.87);
+      border: 1.5px solid rgba(20,20,20,0.8);
+      border-radius: 14px;
+      overflow: hidden;
+      animation: riseUp 0.9s 1.25s ease forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .splash-check-list {
+      padding: 12px 14px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .splash-check-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .splash-check-icon {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: rgba(21,101,192,0.12);
+      border: 1.5px solid rgba(21,101,192,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .splash-check-icon i { font-size: 8.5px; color: #1565c0; }
+    .splash-check-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(10,10,10,0.85);
+      letter-spacing: 0.2px;
+    }
+    .splash-drop-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px 10px;
+      background: none;
+      border: none;
+      border-top: 1px solid rgba(20,20,20,0.12);
+      cursor: pointer;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: rgba(21,101,192,0.85);
+      letter-spacing: 0.3px;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+    .splash-drop-btn:hover { background: rgba(21,101,192,0.06); }
+    .splash-drop-arrow {
+      font-size: 10px;
+      color: rgba(21,101,192,0.7);
+      transition: transform 0.3s ease;
+    }
+    .splash-drop-arrow.open { transform: rotate(180deg); }
+    .splash-drop-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+      background: rgba(240,245,255,0.95);
+      border-top: 1px solid rgba(20,20,20,0.08);
+    }
+    .splash-drop-panel.open { max-height: 320px; }
+    .sdp-inner {
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sdp-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(21,101,192,0.07);
+      border: 1px solid rgba(21,101,192,0.15);
+      border-radius: 10px;
+      padding: 8px 11px;
+    }
+    .sdp-row-icon {
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      background: rgba(21,101,192,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .sdp-row-icon i { font-size: 11px; color: #1565c0; }
+    .sdp-row-text strong { display: block; font-size: 10.5px; font-weight: 700; color: rgba(10,10,10,0.8); margin-bottom: 1px; }
+    .sdp-row-text span  { font-size: 9.5px; color: rgba(10,10,10,0.5); }
+    .sdp-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .sdp-mini {
+      background: rgba(21,101,192,0.05);
+      border: 1px solid rgba(21,101,192,0.12);
+      border-radius: 9px;
+      padding: 7px 10px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .sdp-mini i { font-size: 11px; color: #1565c0; flex-shrink: 0; }
+    .sdp-mini-info strong { display: block; font-size: 10px; font-weight: 700; color: rgba(10,10,10,0.75); }
+    .sdp-mini-info span  { font-size: 9px; color: rgba(21,101,192,0.7); }
+
+    /* Orbit loader */
+    .splash-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      animation: riseUp 0.6s 1.55s ease forwards;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .orbit-ring {
+      position: relative;
+      width: 44px; height: 44px;
+    }
+    .orbit-ring::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.07);
+    }
+    .orbit-dot {
+      position: absolute;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform-origin: 0 0;
+    }
+    .orbit-dot:nth-child(1) { animation: orbit 1.6s linear infinite; background: #1565c0; }
+    .orbit-dot:nth-child(2) { animation: orbit 1.6s 0.53s linear infinite; background: #37474f; }
+    .orbit-dot:nth-child(3) { animation: orbit 1.6s 1.06s linear infinite; background: #546e7a; }
+    @keyframes orbit {
+      0%   { transform: rotate(0deg) translateX(17px) translateY(-50%); }
+      100% { transform: rotate(360deg) translateX(17px) translateY(-50%); }
+    }
+    .splash-timer { font-size: 10px; color: rgba(255,255,255,0.22); letter-spacing: 1px; }
+
+    /* ════════════════════════════════════
+       TAB 2 — LOGIN
+    ════════════════════════════════════ */
+    #login {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #000;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-top: 72px;
+      padding-bottom: 32px;
+    }
+    #login::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.011) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.011) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .login-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: min(94vw, 460px);
+    }
+
+    .login-card {
+      width: 100%;
+      border-radius: 20px;
+      background: #0c0c0f;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      padding: 24px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 18px 50px rgba(0,0,0,0.85);
+      animation: cardSlideIn 0.7s ease forwards;
+      opacity: 0;
+      transform: translateY(28px) scale(0.98);
+    }
+    @keyframes cardSlideIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    .login-top { display: flex; align-items: stretch; }
+    .login-left {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; padding-right: 18px; flex-shrink: 0;
+    }
+    .login-logo {
+      width: 84px; height: 84px;
+      border-radius: 15px; object-fit: cover;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.7);
+    }
+    .login-brand-title {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 2px; min-height: 32px;
+    }
+    .animated-word { display: flex; gap: 1px; }
+    .animated-char {
+      display: inline-block; font-size: 10.5px; font-weight: 800;
+      letter-spacing: 1.5px; opacity: 0;
+      animation: charReveal 0.14s ease forwards;
+    }
+    @keyframes charReveal {
+      0%   { opacity: 0; transform: translateY(5px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .char-blue      { color: #1565c0; }
+    .char-glow-blue { color: #42a5f5; }
+    .char-red       { color: #e53935; }
+    .char-glow-red  { color: #ff7043; }
+
+    .login-divider {
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.12), rgba(255,255,255,0.18), rgba(255,255,255,0.12), transparent);
+      border-radius: 2px; flex-shrink: 0;
+    }
+    .login-right {
+      flex: 1; padding-left: 18px;
+      display: flex; flex-direction: column; justify-content: center; gap: 7px;
+    }
+    .login-right-title { font-size: 14px; font-weight: 700; color: #e0e0e0; letter-spacing: 0.4px; }
+    .login-right-desc  { font-size: 10.5px; color: rgba(255,255,255,0.36); line-height: 1.6; }
+    .status-row { display: flex; align-items: center; gap: 7px; margin-top: 4px; }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #43a047;
+      animation: dotPulse 1.8s ease-in-out infinite; flex-shrink: 0;
+    }
+    @keyframes dotPulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(1.4); }
+    }
+    .status-text { font-size: 10px; color: #43a047; font-weight: 600; letter-spacing: 0.4px; }
+
+    /* ── Key section ── */
+    .key-section { display: flex; flex-direction: column; gap: 9px; }
+    .key-input-wrap { position: relative; display: flex; align-items: center; }
+    /* Đoạn mã GỐC trong file của bạn: */
+.key-input {
+  width: 100%; background: rgba(255,255,255,0.04);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 13px; padding: 12px 44px 12px 16px;
+  color: #fff; font-size: 16px; font-weight: 500;
+  letter-spacing: 1.5px; outline: none;
+  transition: border-color 0.22s, background 0.22s;
+  -webkit-text-security: disc; font-family: inherit;
+}
+
+    .key-input.show-text { -webkit-text-security: none; letter-spacing: 0.4px; }
+    .key-input::placeholder { color: rgba(255,255,255,0.2); font-size: 11.5px; letter-spacing: 0.4px; font-style: italic; }
+    .key-input:focus { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.06); }
+    .key-input.valid   { border-color: rgba(67,160,71,0.65);  background: rgba(67,160,71,0.05); }
+    .key-input.invalid {
+      border-color: rgba(229,57,53,0.65); background: rgba(229,57,53,0.05);
+      animation: shake 0.38s ease;
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-5px); }
+      40% { transform: translateX(5px); }
+      60% { transform: translateX(-3px); }
+      80% { transform: translateX(3px); }
+    }
+    .eye-btn {
+      position: absolute; right: 13px; background: none; border: none;
+      color: rgba(255,255,255,0.3); cursor: pointer; font-size: 13px;
+      padding: 4px; transition: color 0.18s; line-height: 1;
+    }
+    .eye-btn:hover { color: rgba(255,255,255,0.65); }
+
+    /* ── Key status box ── */
+    .key-status-box {
+      border-radius: 12px; padding: 10px 14px;
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07);
+      display: flex; align-items: center; gap: 11px;
+      transition: border-color 0.25s, background 0.25s;
+      min-height: 46px;
+    }
+    .key-continue-btn {
+      width: 100%; margin-top: 10px;
+      border: none; border-radius: 12px;
+      padding: 12px 15px;
+      color: #fff; background: linear-gradient(135deg, #1565c0, #42a5f5);
+      font-size: 13px; font-weight: 700; letter-spacing: 0.8px;
+      cursor: pointer; transition: transform .22s, opacity .22s, background .22s;
+      display: inline-flex;
+      justify-content: center; align-items: center;
+    }
+    .key-continue-btn:hover {
+      transform: translateY(-1px);
+    }
+    .key-continue-btn:disabled {
+      opacity: 0.55; cursor: not-allowed;
+    }
+    .key-status-box.idle      { border-color: rgba(255,255,255,0.08); }
+    .key-status-box.checking  { border-color: rgba(21,101,192,0.4); background: rgba(21,101,192,0.04); }
+    .key-status-box.success   { border-color: rgba(67,160,71,0.4);  background: rgba(67,160,71,0.05); }
+    .key-status-box.error     { border-color: rgba(229,57,53,0.4);  background: rgba(229,57,53,0.05); }
+    .key-status-box.warn      { border-color: rgba(255,193,7,0.35); background: rgba(255,193,7,0.04); }
+
+    .key-spinner {
+      display: none;
+      width: 20px; height: 20px;
+      flex-shrink: 0;
+    }
+    .checking .key-spinner { display: block; }
+    .checking .key-status-icon { display: none; }
+    .key-spinner-ring {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(21,101,192,0.2);
+      border-top-color: #1565c0;
+      border-right-color: #42a5f5;
+      animation: spinRing 0.75s linear infinite;
+    }
+    @keyframes spinRing { to { transform: rotate(360deg); } }
+
+    .key-status-icon { font-size: 15px; flex-shrink: 0; }
+    .idle      .key-status-icon { color: rgba(255,255,255,0.22); }
+    .success   .key-status-icon { color: #43a047; }
+    .error     .key-status-icon { color: #e53935; }
+    .warn      .key-status-icon { color: #ffc107; }
+
+    .key-status-text { font-size: 10.5px; line-height: 1.55; color: rgba(255,255,255,0.38); flex: 1; }
+    .key-status-text strong { display: block; font-size: 11px; margin-bottom: 1px; }
+    .idle      .key-status-text strong { color: rgba(255,255,255,0.45); }
+    .checking  .key-status-text strong { color: rgba(21,101,192,0.9); }
+    .success   .key-status-text strong { color: #66bb6a; }
+    .error     .key-status-text strong { color: #ef5350; }
+    .warn      .key-status-text strong { color: #ffc107; }
+
+    .caps-warn { font-size: 10px; color: rgba(255,193,7,0.7); display: none; align-items: center; gap: 5px; }
+    .caps-warn.visible { display: flex; }
+
+    /* ── Feature list with background image ── */
+    .feature-list-wrap {
+      width: 100%;
+      position: relative;
+      animation: riseUp 0.7s 0.3s ease forwards;
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    .feature-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+      opacity: 0.075;
+      pointer-events: none;
+      z-index: 0;
+      animation: bgFloat 5s ease-in-out infinite;
+    }
+    @keyframes bgFloat {
+      0%,100% { transform: scale(1) translateY(0); }
+      50%      { transform: scale(1.04) translateY(-4px); }
+    }
+
+    .feature-list {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      background: rgba(12,12,15,0.88);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 13px;
+      overflow: hidden;
+      backdrop-filter: blur(2px);
+    }
+
+    .fi-check-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      background: rgba(21,101,192,0.07);
+      flex-shrink: 0;
+    }
+    .fi-check-circle {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(21,101,192,0.45);
+      background: rgba(21,101,192,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fi-check-circle i { font-size: 10px; color: #1e88e5; }
+
+    .fi-sep {
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), rgba(255,255,255,0.14), rgba(255,255,255,0.1), transparent);
+      flex-shrink: 0;
+      margin: 8px 0;
+    }
+
+    .fi-text-col {
+      flex: 1;
+      padding: 11px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .fi-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #d8d8d8;
+      letter-spacing: 0.3px;
+    }
+    .fi-inner-sep {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, rgba(21,101,192,0.3), rgba(255,255,255,0.06), transparent);
+      border-radius: 1px;
+    }
+    .fi-desc {
+      font-size: 10px;
+      color: rgba(255,255,255,0.32);
+      line-height: 1.5;
+    }
+
+    /* ════════════════════════════════════
+       TAB 3 — MAIN APP
+    ════════════════════════════════════ */
+    #app {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #000;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 0 28px;
+    }
+
+    .app-wrap {
+      width: min(96vw, 480px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* App page title */
+    .app-page-title {
+      font-size: clamp(22px, 6vw, 36px);
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #fff;
+      text-align: center;
+      animation: riseUp 0.7s ease forwards;
+      user-select: none;
+    }
+
+    /* ── Chart card ── */
+    .chart-card {
+      width: 100%;
+      border: 1px solid rgba(21,101,192,0.55);
+      border-radius: 16px;
+      background: #080b10;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(21,101,192,0.1) inset;
+    }
+
+    /* Particles layer */
+    #particleCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Chart inner layout */
+    .chart-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* Chart header bar */
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px 8px;
+      border-bottom: 1px solid rgba(21,101,192,0.18);
+    }
+    .chart-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+    }
+    .chart-stats-row {
+      display: flex;
+      gap: 10px;
+    }
+    .chart-stat {
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.5px;
+    }
+    .chart-stat span { color: #42a5f5; }
+
+    /* Canvas chart */
+    #chartCanvas {
+      display: block;
+      width: 100%;
+    }
+
+    /* Metric bar */
+    .chart-metrics {
+      display: flex;
+      border-top: 1px solid rgba(21,101,192,0.15);
+    }
+    .chart-metric-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 6px;
+      gap: 3px;
+    }
+    .chart-metric-item + .chart-metric-item {
+      border-left: 1px solid rgba(21,101,192,0.12);
+    }
+    .cm-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .cm-value {
+      font-size: 14px;
+      font-weight: 800;
+      color: #42a5f5;
+      letter-spacing: 0.5px;
+    }
+    .cm-value.orange { color: #fb8c00; }
+    .cm-value.green  { color: #43a047; }
+
+    /* ── Function buttons row ── */
+    .func-btn-row {
+      display: flex;
+      gap: 10px;
+      padding: 12px 12px 14px;
+      border-top: 1px solid rgba(21,101,192,0.13);
+    }
+
+    .func-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, background 0.3s;
+      user-select: none;
+    }
+    .func-btn svg { width: 28px; height: 28px; flex-shrink: 0; }
+    .func-btn-label {
+      font-size: 11px; font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.4px;
+      transition: color 0.3s;
+    }
+    .func-btn-status {
+      font-size: 9.5px; font-weight: 800;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 5px;
+      padding: 2px 8px;
+      transition: color 0.3s, background 0.3s, border-color 0.3s;
+    }
+
+    /* Active state */
+    .func-btn.active {
+      border-color: rgba(21,101,192,0.55);
+      background: rgba(21,101,192,0.07);
+    }
+    .func-btn.active .func-btn-label { color: #42a5f5; }
+    .func-btn.active .func-btn-status {
+      color: #43a047;
+      background: rgba(67,160,71,0.1);
+      border-color: rgba(67,160,71,0.35);
+    }
+
+    /* Loading state */
+    .func-loading-ring {
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      border: 1.5px solid transparent;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .func-btn.loading .func-loading-ring {
+      opacity: 1;
+      border-color: rgba(21,101,192,0.5);
+      animation: ringRotate 1.2s linear infinite;
+    }
+    @keyframes ringRotate {
+      0%   { clip-path: inset(0 50% 0 0 round 14px); }
+      25%  { clip-path: inset(0 0 50% 0 round 14px); }
+      50%  { clip-path: inset(50% 0 0 0 round 14px); }
+      75%  { clip-path: inset(0 0 0 50% round 14px); }
+      100% { clip-path: inset(0 50% 0 0 round 14px); }
+    }
+    .func-online-dot {
+      position: absolute; top: 8px; right: 9px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      transition: background 0.3s;
+    }
+    .func-btn.active .func-online-dot { background: #43a047; animation: dotPulse 1.8s ease-in-out infinite; }
+
+    /* ════════════════════════════════════
+       NEW: FEATURES PANEL (7 functions)
+    ════════════════════════════════════ */
+    .features-panel {
+      width: 100%;
+      position: relative;
+      border: 1px solid rgba(21, 101, 192, 0.6);
+      border-radius: 14px;
+      background: #06090f;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(21,101,192,0.1) inset,
+        0 0 24px rgba(21,101,192,0.1),
+        0 8px 32px rgba(0,0,0,0.8);
+    }
+
+    /* Red falling particles canvas for features panel */
+    #featParticleCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Panel header */
+    .features-panel-header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 16px 11px;
+      border-bottom: 1px solid rgba(21,101,192,0.25);
+      background: rgba(21,101,192,0.06);
+    }
+    .features-panel-header-icon {
+      width: 30px; height: 30px;
+      border-radius: 9px;
+      background: rgba(21,101,192,0.18);
+      border: 1px solid rgba(21,101,192,0.4);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .features-panel-title {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #42a5f5;
+      text-transform: uppercase;
+    }
+    .features-panel-badge {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #42a5f5;
+      background: rgba(21,101,192,0.15);
+      border: 1px solid rgba(21,101,192,0.4);
+      border-radius: 6px;
+      padding: 2px 8px;
+    }
+
+    /* List of 7 feature items */
+    .feat-list {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 10px 12px 12px;
+    }
+
+    /* Single feature row */
+    .feat-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 13px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(21,101,192,0.15);
+      margin-bottom: 7px;
+      transition: background 0.25s, border-color 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feat-item:last-child { margin-bottom: 0; }
+    .feat-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: 3px 0 0 3px;
+      background: rgba(21,101,192,0.35);
+      transition: background 0.3s;
+    }
+    .feat-item.feat-on {
+      background: rgba(21,101,192,0.07);
+      border-color: rgba(21,101,192,0.4);
+    }
+    .feat-item.feat-on::before {
+      background: linear-gradient(to bottom, #42a5f5, #1565c0);
+    }
+
+    /* Android-style switch on the LEFT */
+    .feat-switch {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .feat-switch input {
+      opacity: 0;
+      width: 0; height: 0;
+      position: absolute;
+    }
+    .feat-switch-track {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: background 0.28s, border-color 0.28s;
+    }
+    .feat-switch input:checked + .feat-switch-track {
+      background: #2e7d32;
+      border-color: #43a047;
+      box-shadow: 0 0 8px rgba(67,160,71,0.5);
+    }
+    .feat-switch-thumb {
+      position: absolute;
+      top: 2px; left: 2px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), background 0.28s;
+    }
+    .feat-switch input:checked ~ .feat-switch-thumb {
+      transform: translateX(16px);
+      background: #a5d6a7;
+      box-shadow: 0 1px 6px rgba(67,160,71,0.7);
+    }
+
+    /* Text block */
+    .feat-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .feat-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #d0d8e8;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.25s;
+    }
+    .feat-item.feat-on .feat-name { color: #90caf9; }
+    .feat-desc {
+      font-size: 9.5px;
+      color: rgba(255,255,255,0.28);
+      line-height: 1.5;
+      transition: color 0.25s;
+    }
+    .feat-item.feat-on .feat-desc { color: rgba(144,202,249,0.5); }
+
+    /* Icon on the RIGHT */
+    .feat-icon {
+      width: 32px; height: 32px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: rgba(21,101,192,0.1);
+      border: 1px solid rgba(21,101,192,0.2);
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .feat-item.feat-on .feat-icon {
+      background: rgba(21,101,192,0.18);
+      border-color: rgba(21,101,192,0.45);
+    }
+    .feat-icon svg {
+      width: 18px; height: 18px;
+    }
+
+    /* Status label */
+    .feat-status-tag {
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 1px 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: color 0.25s, background 0.25s, border-color 0.25s;
+    }
+    .feat-item.feat-on .feat-status-tag {
+      color: #69f0ae;
+      background: rgba(105,240,174,0.08);
+      border-color: rgba(105,240,174,0.3);
+    }
+
+    /* ════════════════════════════════════
+       CODER CONSOLE PANEL
+    ════════════════════════════════════ */
+    .coder-panel {
+      position: relative;
+      z-index: 2;
+      margin: 0 12px 12px;
+      border: 1px solid rgba(21,101,192,0.35);
+      border-radius: 8px;
+      background: #020509;
+      overflow: hidden;
+      box-shadow: 0 0 16px rgba(21,101,192,0.08) inset, 0 2px 12px rgba(0,0,0,0.7);
+    }
+
+    /* Coder panel top bar */
+    .coder-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      background: rgba(21,101,192,0.07);
+      border-bottom: 1px solid rgba(21,101,192,0.2);
+    }
+    .coder-topbar-dots {
+      display: flex;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .coder-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+    }
+    .coder-dot:nth-child(1) { background: #ef5350; }
+    .coder-dot:nth-child(2) { background: #ffc107; }
+    .coder-dot:nth-child(3) { background: #43a047; }
+    .coder-topbar-title {
+      flex: 1;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: rgba(66,165,245,0.7);
+      font-family: 'Courier New', monospace;
+      text-transform: uppercase;
+    }
+    .coder-topbar-icon {
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+    .coder-status-led {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+    .coder-status-led.active {
+      background: #43a047;
+      box-shadow: 0 0 6px rgba(67,160,71,0.8);
+      animation: dotPulse 1.4s ease-in-out infinite;
+    }
+
+    /* Code display area */
+    .coder-body {
+      padding: 10px 12px 10px;
+      min-height: 88px;
+      max-height: 160px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-family: 'Courier New', 'Consolas', monospace;
+      font-size: 10.5px;
+      line-height: 1.65;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(21,101,192,0.3) transparent;
+    }
+    .coder-body::-webkit-scrollbar { width: 3px; }
+    .coder-body::-webkit-scrollbar-thumb { background: rgba(21,101,192,0.35); border-radius: 2px; }
+
+    /* Idle placeholder */
+    .coder-idle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 0;
+    }
+    .coder-idle-icon { flex-shrink: 0; opacity: 0.25; }
+    .coder-idle-text {
+      font-size: 10px;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.5px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Each code line */
+    .coder-line {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 1px;
+      animation: codeLineIn 0.18s ease forwards;
+      opacity: 0;
+    }
+    @keyframes codeLineIn {
+      from { opacity: 0; transform: translateX(-6px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .coder-line-ts {
+      color: rgba(66,165,245,0.4);
+      font-size: 9px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+    .coder-line-prefix {
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .coder-line-text {
+      flex: 1;
+      word-break: break-all;
+    }
+    .cl-green  { color: #69f0ae; }
+    .cl-blue   { color: #42a5f5; }
+    .cl-cyan   { color: #26c6da; }
+    .cl-red    { color: #ef5350; }
+    .cl-yellow { color: #ffd740; }
+    .cl-gray   { color: rgba(255,255,255,0.35); }
+    .cl-white  { color: rgba(255,255,255,0.75); }
+
+    /* Blinking cursor */
+    .coder-cursor {
+      display: inline-block;
+      width: 7px; height: 12px;
+      background: #42a5f5;
+      vertical-align: text-bottom;
+      animation: cursorBlink 1s step-end infinite;
+      margin-left: 3px;
+      border-radius: 1px;
+    }
+    @keyframes cursorBlink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* Scanline overlay effect */
+    .coder-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0,0,0,0.06) 2px,
+        rgba(0,0,0,0.06) 4px
+      );
+      pointer-events: none;
+      z-index: 3;
+      border-radius: 8px;
+    }
+
+    /* ════════════════════════════════════
+       ACTION BOXES (2 setting boxes)
+    ════════════════════════════════════ */
+    .action-boxes-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .action-box {
+      width: 100%;
+      position: relative;
+      border: 1px solid rgba(21,101,192,0.52);
+      border-radius: 13px;
+      background: #05080e;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(21,101,192,0.08) inset,
+        0 0 18px rgba(21,101,192,0.08),
+        0 4px 20px rgba(0,0,0,0.75);
+    }
+
+    /* Yellow particles canvas */
+    .action-box-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Content row */
+    .action-box-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 13px;
+    }
+
+    /* Spinning gear wrapper */
+    .action-gear-wrap {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 11px;
+      background: rgba(21,101,192,0.1);
+      border: 1px solid rgba(21,101,192,0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .action-gear-svg {
+      display: block;
+      animation: gearSpin 3.5s linear infinite;
+    }
+    @keyframes gearSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Text area */
+    .action-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+    .action-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #d4e0f0;
+      letter-spacing: 0.3px;
+    }
+    .action-desc {
+      font-size: 9.5px;
+      color: rgba(255,255,255,0.27);
+      line-height: 1.5;
+    }
+
+    /* Right-side button */
+    .action-btn {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 11px;
+      border-radius: 8px;
+      border: 1px solid rgba(21,101,192,0.42);
+      background: rgba(21,101,192,0.1);
+      cursor: pointer;
+      transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .action-btn:hover {
+      background: rgba(21,101,192,0.18);
+      border-color: rgba(21,101,192,0.65);
+    }
+    .action-btn:active { transform: scale(0.96); }
+
+    .action-btn.done {
+      background: rgba(21,101,192,0.16);
+      border-color: rgba(66,165,245,0.75);
+      box-shadow: 0 0 10px rgba(21,101,192,0.3);
+    }
+
+    /* Rocket icon (default) */
+    .action-btn-rocket {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    /* Check icon (done state) */
+    .action-btn-check {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s;
+    }
+    .action-btn.done .action-btn-rocket { display: none; }
+    .action-btn.done .action-btn-check  { display: flex; }
+
+    .action-btn-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: rgba(66,165,245,0.75);
+      white-space: nowrap;
+      transition: color 0.25s;
+    }
+    .action-btn.done .action-btn-label { color: #42a5f5; }
+
+    /* Top accent line on action-box */
+    .action-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(21,101,192,0.5), rgba(66,165,245,0.35), transparent);
+      z-index: 2;
+    }
+
+    /* ════════════════════════════════════
+       GAME PICKER BOX
+    ════════════════════════════════════ */
+    .game-picker-box {
+      width: 100%;
+      position: relative;
+      border: 1px solid rgba(21,101,192,0.52);
+      border-radius: 16px;
+      background: linear-gradient(145deg, #030814 0%, #050d1c 55%, #071228 100%);
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(21,101,192,0.08) inset,
+        0 0 28px rgba(21,101,192,0.1),
+        0 6px 28px rgba(0,0,0,0.82);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 22px 16px 18px;
+      gap: 13px;
+    }
+
+    /* Stamp watermark corner ribbon */
+    .gp-stamp {
+      position: absolute;
+      top: 0; right: 0;
+      width: 88px; height: 88px;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .gp-stamp::before {
+      content: 'REGLOG';
+      position: absolute;
+      top: 18px; right: -26px;
+      width: 100px;
+      text-align: center;
+      transform: rotate(45deg);
+      font-size: 7.5px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      color: rgba(66,165,245,0.4);
+      background: rgba(21,101,192,0.1);
+      border-top: 1px solid rgba(21,101,192,0.3);
+      border-bottom: 1px solid rgba(21,101,192,0.3);
+      padding: 2px 0;
+    }
+
+    /* Top accent glow */
+    .game-picker-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(21,101,192,0.55), rgba(66,165,245,0.4), transparent);
+      z-index: 2;
+    }
+
+    /* Circular + button */
+    .gp-circle-btn {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(21,101,192,0.55);
+      background: rgba(21,101,192,0.07);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+      box-shadow:
+        0 0 0 5px rgba(21,101,192,0.05),
+        0 0 18px rgba(21,101,192,0.12);
+      flex-shrink: 0;
+    }
+    .gp-circle-btn:hover {
+      border-color: rgba(66,165,245,0.8);
+      background: rgba(21,101,192,0.13);
+      box-shadow: 0 0 0 7px rgba(21,101,192,0.09), 0 0 24px rgba(21,101,192,0.22);
+    }
+    .gp-circle-btn:active { transform: scale(0.94); }
+
+    /* Plus SVG */
+    .gp-plus-svg { display: block; }
+    .gp-circle-btn.selected .gp-plus-svg { display: none; }
+
+    /* Selected game image inside circle */
+    .gp-selected-img {
+      display: none;
+      width: 42px; height: 42px;
+      border-radius: 11px;
+      object-fit: cover;
+    }
+    .gp-circle-btn.selected .gp-selected-img { display: block; }
+
+    /* Rotating pulse ring around circle */
+    .gp-circle-btn::after {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      border: 1px solid rgba(21,101,192,0.22);
+      animation: gpRing 3s linear infinite;
+    }
+    @keyframes gpRing {
+      from { transform: rotate(0deg); border-color: rgba(21,101,192,0.22); }
+      50%  { border-color: rgba(66,165,245,0.45); }
+      to   { transform: rotate(360deg); border-color: rgba(21,101,192,0.22); }
+    }
+
+    /* Label */
+    .gp-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: rgba(66,165,245,0.45);
+      text-align: center;
+      position: relative; z-index: 2;
+    }
+
+    /* Selected game info bar */
+    .gp-info-bar {
+      display: none;
+      width: 100%;
+      background: rgba(21,101,192,0.07);
+      border: 1px solid rgba(21,101,192,0.3);
+      border-radius: 11px;
+      padding: 10px 12px;
+      gap: 10px;
+      align-items: center;
+      position: relative; z-index: 2;
+    }
+    .gp-info-bar.visible { display: flex; }
+    .gp-info-img {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid rgba(21,101,192,0.35);
+      flex-shrink: 0;
+      background: rgba(0,0,0,0.4);
+    }
+    .gp-info-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+    .gp-info-name {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #90caf9;
+    }
+    .gp-info-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9.5px;
+      color: rgba(105,240,174,0.8);
+    }
+    .gp-info-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #69f0ae;
+      animation: dotPulse 1.8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .gp-info-version {
+      font-size: 8.5px;
+      color: rgba(255,255,255,0.22);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    /* ─── GAME PICKER MODAL ─── */
+    .gp-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9100;
+      pointer-events: none;
+      background: rgba(0,0,0,0);
+      transition: background 0.35s;
+    }
+    .gp-modal-overlay.open {
+      pointer-events: all;
+      background: rgba(0,0,0,0.45);
+    }
+
+    .gp-modal {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateX(110%) translateY(-50%);
+      width: min(88vw, 320px);
+      border-radius: 16px 0 0 16px;
+      border: 1px solid rgba(139,92,246,0.42);
+      border-right: none;
+      background: #08051a;
+      overflow: hidden;
+      transition: transform 0.42s cubic-bezier(0.22,1,0.36,1);
+      box-shadow:
+        -10px 0 48px rgba(139,92,246,0.22),
+        0 0 0 1px rgba(139,92,246,0.07) inset;
+    }
+    .gp-modal-overlay.open .gp-modal {
+      transform: translateX(0) translateY(-50%);
+    }
+
+    /* Lightning canvas */
+    .gp-modal-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Modal inner content */
+    .gp-modal-inner {
+      position: relative;
+      z-index: 1;
+      padding: 18px 15px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    /* Modal header */
+    .gp-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 11px;
+      border-bottom: 1px solid rgba(139,92,246,0.2);
+    }
+    .gp-modal-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #c4b5fd;
+      letter-spacing: 1px;
+    }
+    .gp-modal-subtitle {
+      font-size: 9px;
+      color: rgba(196,181,253,0.4);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-top: 1px;
+    }
+    .gp-modal-close {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      border: 1px solid rgba(139,92,246,0.3);
+      background: rgba(139,92,246,0.08);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: rgba(196,181,253,0.65);
+      font-size: 13px;
+      line-height: 1;
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .gp-modal-close:hover {
+      background: rgba(139,92,246,0.18);
+      border-color: rgba(139,92,246,0.55);
+    }
+
+    /* Game option rows */
+    .gp-game-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 12px;
+      border-radius: 13px;
+      border: 1px solid rgba(220,38,38,0.42);
+      background: rgba(220,38,38,0.04);
+      cursor: pointer;
+      transition: background 0.22s, border-color 0.22s, box-shadow 0.22s;
+      position: relative;
+      overflow: hidden;
+    }
+    .gp-game-option::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(220,38,38,0.05) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .gp-game-option:hover {
+      background: rgba(220,38,38,0.09);
+      border-color: rgba(220,38,38,0.68);
+      box-shadow: 0 0 14px rgba(220,38,38,0.15);
+    }
+    .gp-game-option:active { transform: scale(0.98); }
+
+    /* Circular game icon */
+    .gp-game-opt-icon-wrap {
+      width: 48px; height: 48px;
+      border-radius: 13px;
+      border: 1.5px solid rgba(220,38,38,0.38);
+      overflow: hidden;
+      flex-shrink: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gp-game-opt-icon {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 11px;
+    }
+
+    .gp-game-opt-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+    .gp-game-opt-name {
+      font-size: 12px;
+      font-weight: 800;
+      color: #fca5a5;
+    }
+    .gp-game-opt-desc {
+      font-size: 9px;
+      color: rgba(255,255,255,0.26);
+      line-height: 1.4;
+    }
+    .gp-game-opt-badge {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: rgba(105,240,174,0.7);
+      background: rgba(105,240,174,0.07);
+      border: 1px solid rgba(105,240,174,0.22);
+      border-radius: 4px;
+      padding: 1px 5px;
+      white-space: nowrap;
+    }
+    .gp-game-opt-arrow {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(220,38,38,0.32);
+      background: rgba(220,38,38,0.08);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ════════════════════════════════════
+       RED FUNCTION BOX (4 items)
+    ════════════════════════════════════ */
+    .func-red-box {
+      width: 100%;
+      position: relative;
+      border: 1px solid rgba(220,38,38,0.48);
+      border-radius: 14px;
+      background: #06030a;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(220,38,38,0.05) inset,
+        0 0 20px rgba(220,38,38,0.08),
+        0 4px 20px rgba(0,0,0,0.78);
+    }
+    .func-red-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(220,38,38,0.5), rgba(239,154,154,0.3), transparent);
+      z-index: 1;
+    }
+    .func-red-header {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 13px 10px;
+      border-bottom: 1px solid rgba(220,38,38,0.12);
+      background: rgba(220,38,38,0.04);
+    }
+    .func-red-header-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #ef5350;
+      animation: dotPulse 1.8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .func-red-header-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ef9a9a;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .func-red-header-badge {
+      margin-left: auto;
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: rgba(239,154,154,0.65);
+      background: rgba(220,38,38,0.1);
+      border: 1px solid rgba(220,38,38,0.28);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+
+    /* Radio rows */
+    .func-radio-list {
+      display: flex;
+      flex-direction: column;
+      padding: 9px 11px 11px;
+    }
+    .func-radio-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 8px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: background 0.22s, border-color 0.22s;
+      position: relative;
+    }
+    .func-radio-row:last-child { margin-bottom: 0; }
+    .func-radio-row:hover { background: rgba(220,38,38,0.04); border-color: rgba(220,38,38,0.1); }
+    .func-radio-row.active { background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.25); }
+
+    /* Circle radio button */
+    .func-radio-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #09060e;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    }
+    .func-radio-row.active .func-radio-btn {
+      border-color: rgba(220,38,38,0.7);
+      background: rgba(220,38,38,0.08);
+      box-shadow: 0 0 12px rgba(220,38,38,0.45), 0 0 0 3px rgba(220,38,38,0.1);
+    }
+
+    /* Plus → Skull toggle */
+    .func-radio-plus  { display: block; }
+    .func-radio-skull { display: none; }
+    .func-radio-row.active .func-radio-plus  { display: none; }
+    .func-radio-row.active .func-radio-skull { display: block; }
+
+    /* Text */
+    .func-radio-text {
+      flex: 1;
+      display: flex; flex-direction: column; gap: 2px;
+      min-width: 0;
+    }
+    .func-radio-name {
+      font-size: 11.5px; font-weight: 800; color: #c8d0dc;
+      transition: color 0.22s;
+    }
+    .func-radio-row.active .func-radio-name { color: #ef9a9a; }
+    .func-radio-desc {
+      font-size: 9px; color: rgba(255,255,255,0.24); line-height: 1.4;
+    }
+
+    /* ── TOP MODAL (slide from top) ── */
+    .func-top-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9300;
+      pointer-events: none;
+    }
+    .func-top-modal-overlay.open { pointer-events: all; }
+    .func-top-modal {
+      position: absolute;
+      top: 66px; left: 50%;
+      transform: translateX(-50%) translateY(-130%);
+      width: min(90vw, 268px);
+      border-radius: 15px;
+      border: 1px solid rgba(21,101,192,0.42);
+      background: #060c1a;
+      overflow: hidden;
+      transition: transform 0.38s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
+      opacity: 0;
+      box-shadow: 0 10px 45px rgba(0,0,0,0.9), 0 0 22px rgba(21,101,192,0.14);
+    }
+    .func-top-modal-overlay.open .func-top-modal {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .func-top-modal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(21,101,192,0.6), rgba(66,165,245,0.4), transparent);
+    }
+    .func-top-modal-inner {
+      padding: 18px 18px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+    }
+    .func-top-modal-icon-wrap {
+      width: 48px; height: 48px;
+      border-radius: 13px;
+      background: rgba(21,101,192,0.1);
+      border: 1px solid rgba(21,101,192,0.32);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ftm-gear { animation: gearSpin 1.1s linear infinite; }
+    .ftm-gear.hide { display: none; }
+    .ftm-check { display: none; }
+    .ftm-check.show { display: block; }
+    .func-top-modal-text {
+      font-size: 11.5px; font-weight: 800;
+      color: #90caf9; letter-spacing: 0.3px;
+      text-align: center;
+    }
+    .func-top-modal-sub {
+      font-size: 9px; color: rgba(255,255,255,0.3);
+      text-align: center;
+    }
+    .func-top-modal-bar {
+      width: 100%; height: 3px;
+      border-radius: 3px;
+      background: rgba(21,101,192,0.14);
+      overflow: hidden;
+    }
+    .func-top-modal-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(to right, #1565c0, #42a5f5);
+      width: 0%;
+      transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ════════════════════════════════════
+       INJECT REGLOG BOX
+    ════════════════════════════════════ */
+    .inject-box {
+      width: 100%;
+      position: relative;
+      border: 1px solid rgba(21,101,192,0.42);
+      border-radius: 14px;
+      background: #04080f;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(21,101,192,0.06) inset,
+        0 0 18px rgba(21,101,192,0.07),
+        0 4px 18px rgba(0,0,0,0.75);
+      transition: border-color 0.28s;
+    }
+    .inject-box.active {
+      border-color: rgba(21,101,192,0.65);
+      box-shadow:
+        0 0 0 1px rgba(21,101,192,0.1) inset,
+        0 0 24px rgba(21,101,192,0.14),
+        0 4px 20px rgba(0,0,0,0.8);
+    }
+    .inject-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(21,101,192,0.5), rgba(66,165,245,0.35), transparent);
+    }
+    .inject-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 13px 13px;
+      cursor: pointer;
+    }
+    /* Radio circle */
+    .inject-radio-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #09060e;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    }
+    .inject-box.active .inject-radio-btn {
+      border-color: rgba(21,101,192,0.7);
+      background: rgba(21,101,192,0.1);
+      box-shadow: 0 0 12px rgba(21,101,192,0.45), 0 0 0 3px rgba(21,101,192,0.1);
+    }
+    .inject-radio-off { display: block; }
+    .inject-box.active .inject-radio-off { display: none; }
+    .inject-radio-on  { display: none; }
+    .inject-box.active .inject-radio-on  { display: block; }
+
+    .inject-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .inject-name { font-size: 12px; font-weight: 800; color: #ccd8ec; transition: color 0.25s; }
+    .inject-box.active .inject-name { color: #90caf9; }
+    .inject-desc { font-size: 9px; color: rgba(255,255,255,0.24); }
+
+    /* Process area */
+    .inject-process {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 0 14px 16px;
+      border-top: 1px solid rgba(21,101,192,0.1);
+    }
+    .inject-box.active .inject-process { display: flex; }
+
+    /* Spinner row */
+    .inject-spinner-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding-top: 4px;
+    }
+    .inject-spin-svg { animation: gearSpin 0.9s linear infinite; }
+    .inject-spin-svg.paused { animation-play-state: paused; }
+    .inject-spin-label {
+      font-size: 9.5px; font-weight: 700;
+      color: rgba(66,165,245,0.7); letter-spacing: 0.3px;
+    }
+    .inject-spin-label.done { color: rgba(105,240,174,0.85); }
+
+    /* Gun grid */
+    .inject-guns {
+      display: flex; flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      width: 100%;
+    }
+    .gun-slot {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+      width: 56px;
+      opacity: 0;
+      transform: scale(0.65) translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+    .gun-slot.loaded { opacity: 1; transform: scale(1) translateY(0); }
+    .gun-icon-wrap {
+      width: 52px; height: 36px;
+      border-radius: 9px;
+      background: rgba(21,101,192,0.08);
+      border: 1px solid rgba(21,101,192,0.22);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      transition: border-color 0.4s, background 0.4s, box-shadow 0.4s;
+    }
+    .gun-slot.loaded .gun-icon-wrap {
+      border-color: rgba(105,240,174,0.42);
+      background: rgba(105,240,174,0.05);
+      box-shadow: 0 0 8px rgba(105,240,174,0.14);
+    }
+    .gun-name-label {
+      font-size: 8px; font-weight: 800;
+      color: rgba(66,165,245,0.55);
+      letter-spacing: 0.3px;
+      text-align: center;
+      transition: color 0.4s;
+    }
+    .gun-slot.loaded .gun-name-label { color: rgba(105,240,174,0.7); }
+
+    /* Inject success */
+    .inject-success {
+      display: none;
+      align-items: center; gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(105,240,174,0.07);
+      border: 1px solid rgba(105,240,174,0.25);
+      font-size: 10px; font-weight: 800;
+      color: rgba(105,240,174,0.88);
+      letter-spacing: 0.3px;
+    }
+    .inject-success.visible { display: flex; }
+
+    /* ════════════════════════════════════
+       LOGIN — 4th FEATURE ITEM (Mua Key)
+    ════════════════════════════════════ */
+    .fi-buy-btn {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 11px;
+      border-radius: 9px;
+      background: #0a0a0f;
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+      transition: background 0.22s, border-color 0.22s, box-shadow 0.22s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .fi-buy-btn:hover {
+      background: #111118;
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+    .fi-buy-btn:active { transform: scale(0.96); }
+    .fi-buy-btn-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      color: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+
+    /* ════════════════════════════════════
+       SHOP TAB
+    ════════════════════════════════════ */
+    #shop {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #000;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-top: 70px;
+      padding-bottom: 32px;
+    }
+    #shop::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.011) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.011) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .shop-wrap {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      gap: 12px;
+      width: min(94vw, 460px);
+    }
+
+    /* Shop page title */
+    .shop-page-title {
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      text-align: center;
+      padding-bottom: 2px;
+    }
+
+    /* VIP Card */
+    .shop-vip-card {
+      width: 100%;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #050915 0%, #070d1f 60%, #060e1c 100%);
+      border: 1px solid rgba(21,101,192,0.5);
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(21,101,192,0.07) inset, 0 0 28px rgba(21,101,192,0.12), 0 8px 32px rgba(0,0,0,0.85);
+      animation: cardSlideIn 0.6s ease forwards;
+      opacity: 0; transform: translateY(20px) scale(0.98);
+    }
+    .shop-vip-header {
+      padding: 16px 18px 14px;
+      border-bottom: 1px solid rgba(21,101,192,0.18);
+      background: rgba(21,101,192,0.06);
+      display: flex; align-items: center; gap: 11px;
+    }
+    .shop-vip-badge {
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #1565c0, #42a5f5);
+      font-size: 8.5px; font-weight: 900; letter-spacing: 1.5px;
+      color: #fff; flex-shrink: 0;
+    }
+    .shop-vip-name {
+      font-size: 14px; font-weight: 900;
+      color: #90caf9; letter-spacing: 1px;
+      flex: 1;
+    }
+    .shop-vip-status {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 9px; font-weight: 700; color: rgba(105,240,174,0.8);
+    }
+    .shop-vip-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #69f0ae; animation: dotPulse 1.8s ease-in-out infinite;
+    }
+    .shop-vip-body { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .shop-vip-desc {
+      font-size: 10.5px; line-height: 1.7;
+      color: rgba(255,255,255,0.45);
+    }
+    .shop-vip-features {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+    .shop-vip-feat {
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      background: rgba(21,101,192,0.07);
+      border: 1px solid rgba(21,101,192,0.18);
+    }
+    .shop-vip-feat-icon {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: rgba(21,101,192,0.15);
+      border: 1px solid rgba(21,101,192,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .shop-vip-feat-label { font-size: 9.5px; font-weight: 700; color: rgba(144,202,249,0.8); }
+    .shop-vip-price {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 13px;
+      border-radius: 11px;
+      background: rgba(21,101,192,0.08);
+      border: 1px solid rgba(21,101,192,0.25);
+    }
+    .shop-vip-price-label { font-size: 10px; color: rgba(255,255,255,0.3); flex: 1; }
+    .shop-vip-price-val {
+      font-size: 13px; font-weight: 900;
+      color: #42a5f5; letter-spacing: 0.5px;
+    }
+
+    /* Admin Card */
+    .shop-admin-card {
+      width: 100%;
+      border-radius: 18px;
+      background: #080810;
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.7);
+      animation: cardSlideIn 0.7s 0.1s ease forwards;
+      opacity: 0; transform: translateY(20px) scale(0.98);
+    }
+    .shop-admin-header {
+      padding: 15px 16px;
+      display: flex; align-items: center; gap: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .shop-admin-avatar {
+      width: 54px; height: 54px; border-radius: 14px;
+      object-fit: cover;
+      border: 1.5px solid rgba(21,101,192,0.4);
+      box-shadow: 0 0 14px rgba(21,101,192,0.2);
+      flex-shrink: 0; background: #111;
+    }
+    .shop-admin-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .shop-admin-name { font-size: 13px; font-weight: 800; color: #d0daf0; }
+    .shop-admin-role {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.8px;
+      color: #42a5f5; text-transform: uppercase;
+    }
+    .shop-admin-verified {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 9px; color: rgba(105,240,174,0.7); font-weight: 700;
+    }
+    .shop-admin-body { padding: 13px 16px 15px; display: flex; flex-direction: column; gap: 11px; }
+    .shop-admin-desc {
+      font-size: 10px; line-height: 1.65; color: rgba(255,255,255,0.38);
+    }
+    .shop-admin-socials { display: flex; gap: 9px; }
+    .shop-social-link {
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 13px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      text-decoration: none;
+      transition: background 0.22s, border-color 0.22s;
+      flex: 1; justify-content: center;
+    }
+    .shop-social-link:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
+    .shop-social-icon { width: 22px; height: 22px; object-fit: contain; border-radius: 5px; }
+    .shop-social-name { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.65); }
+
+    /* About card */
+    .shop-about-card {
+      width: 100%;
+      border-radius: 18px;
+      background: #06060c;
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 16px 18px;
+      display: flex; flex-direction: column; gap: 10px;
+      animation: cardSlideIn 0.8s 0.2s ease forwards;
+      opacity: 0; transform: translateY(20px) scale(0.98);
+    }
+    .shop-about-title {
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 1.2px; color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .shop-about-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, rgba(255,255,255,0.1), transparent);
+    }
+    .shop-about-desc {
+      font-size: 10px; line-height: 1.7;
+      color: rgba(255,255,255,0.32);
+    }
+    .shop-about-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .shop-about-tag {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+      color: rgba(66,165,245,0.65);
+      background: rgba(21,101,192,0.08);
+      border: 1px solid rgba(21,101,192,0.2);
+      border-radius: 5px; padding: 2px 8px;
+    }
+
+    /* Back button */
+    .shop-back-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 16px;
+      border-radius: 11px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      font-size: 10.5px; font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      transition: background 0.22s;
+      align-self: flex-start;
+    }
+    .shop-back-btn:hover { background: rgba(255,255,255,0.08); }
+
+    @keyframes cardSlideIn {
+      from { opacity: 0; transform: translateY(18px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+
+  </style>
+
+
+
+<!-- ══════════════════ GLOBAL HEADER ══════════════════ -->
+<header id="global-header">
+  <div class="header-spacer"></div>
+  <div class="header-brand">
+    <div class="header-brand-text">
+      <span class="hb-main" id="headerBrand">AIMLOCK GOLD A</span>
+      <span class="hb-vip">VIP</span>
+    </div>
+  </div>
+  <img class="header-logo" src="https://i.postimg.cc/SsjdJJDD/F676189D-3A29-462B-9E2E-2AC367CF3301.jpg" onerror="this.style.display='none'" alt="">
+</header>
+
+<!-- ══════════════════ TAB 1: SPLASH ══════════════════ -->
+<div id="splash" class="tab">
+  <div class="splash-content">
+    <img class="splash-avatar" src="https://i.postimg.cc/SsjdJJDD/F676189D-3A29-462B-9E2E-2AC367CF3301.jpg" onerror="this.style.background='#1565c0'" alt="">
+    <div class="splash-title">AIMLOCK GOLD</div>
+
+    <div class="splash-info-box">
+      <div class="splash-check-list">
+        <div class="splash-check-item">
+          <div class="splash-check-icon"><i class="fa-solid fa-check"></i></div>
+          <span class="splash-check-label">Hệ thống bảo mật cấp cao</span>
+        </div>
+        <div class="splash-check-item">
+          <div class="splash-check-icon"><i class="fa-solid fa-check"></i></div>
+          <span class="splash-check-label">Tối ưu hiệu suất game thực chiến</span>
+        </div>
+        <div class="splash-check-item">
+          <div class="splash-check-icon"><i class="fa-solid fa-check"></i></div>
+          <span class="splash-check-label">Chống phát hiện &amp; bypass nâng cao</span>
+        </div>
+      </div>
+      <button class="splash-drop-btn" onclick="toggleDrop()">
+        <span>Xem thông tin chi tiết</span>
+        <span class="splash-drop-arrow" id="dropArrow">▼</span>
+      </button>
+      <div class="splash-drop-panel" id="dropPanel">
+        <div class="sdp-inner">
+          <div class="sdp-row">
+            <div class="sdp-row-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="sdp-row-text">
+              <strong>Antiban 100%</strong>
+              <span>Mã hóa toàn bộ dữ liệu key và phiên đăng nhập</span>
+            </div>
+          </div>
+          <div class="sdp-mini-grid">
+            <div class="sdp-mini">
+              <i class="fa-solid fa-bolt"></i>
+              <div class="sdp-mini-info"><strong>Tốc độ cao</strong><span>Ping &lt; 20ms</span></div>
+            </div>
+            <div class="sdp-mini">
+              <i class="fa-solid fa-eye-slash"></i>
+              <div class="sdp-mini-info"><strong>Ẩn danh</strong><span>Bypass AI</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="splash-loader">
+      <div class="orbit-ring">
+        <div class="orbit-dot"></div>
+        <div class="orbit-dot"></div>
+        <div class="orbit-dot"></div>
+      </div>
+      <div class="splash-timer" id="timerLabel">Đang khởi động…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ TAB 2: LOGIN ══════════════════ -->
+<div id="login" class="tab active fade-in">
+  <div class="login-wrap">
+
+    <div class="login-card">
+      <div class="login-top">
+        <div class="login-left">
+          <img class="login-logo" src="https://i.postimg.cc/SsjdJJDD/F676189D-3A29-462B-9E2E-2AC367CF3301.jpg" onerror="this.style.background='#1565c0'" alt="">
+          <div class="login-brand-title" id="brandTitle"></div>
+        </div>
+        <div class="login-divider"></div>
+        <div class="login-right">
+          <div class="login-right-title">AIMLOCK GOLD</div>
+          <div class="login-right-desc">Nhập key kích hoạt để truy cập hệ thống tối ưu hóa game chuyên nghiệp.</div>
+          <div class="status-row">
+            <div class="status-dot"></div>
+            <span class="status-text">Server đang hoạt động</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="key-section">
+        <div class="key-input-wrap">
+          <input class="key-input" id="keyInput" type="text" placeholder="Nhập key kích hoạt…" autocomplete="off" spellcheck="false">
+          <button class="eye-btn" id="eyeBtn" type="button"><i class="fa-solid fa-eye" id="eyeIcon"></i></button>
+        </div>
+        <div class="caps-warn" id="capsWarn">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Caps Lock đang bật</span>
+        </div>
+        <div class="key-status-box idle" id="keyStatusBox">
+          <div class="key-spinner"><div class="key-spinner-ring"></div></div>
+          <i class="fa-solid fa-key key-status-icon" id="keyStatusIcon"></i>
+          <div class="key-status-text">
+            <strong id="keyStatusTitle">Chưa nhập key</strong>
+            <span id="keyStatusDesc">Vui lòng nhập đúng key kích hoạt. Key phân biệt chữ hoa / thường.</span>
+          </div>
+        </div>
+        <button class="key-continue-btn" id="keyContinueBtn" type="button">Xác thực</button>
+      </div>
+    </div>
+
+    <div class="feature-list-wrap">
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="fi-check-col"><div class="fi-check-circle"><i class="fa-solid fa-check"></i></div></div>
+          <div class="fi-sep"></div>
+          <div class="fi-text-col">
+            <div class="fi-title">Bảo mật cao cấp</div>
+            <div class="fi-inner-sep"></div>
+            <div class="fi-desc">Mã hóa key end-to-end, xác thực tức thời, chống rò rỉ dữ liệu.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="fi-check-col"><div class="fi-check-circle"><i class="fa-solid fa-check"></i></div></div>
+          <div class="fi-sep"></div>
+          <div class="fi-text-col">
+            <div class="fi-title">Hiệu suất ổn định</div>
+            <div class="fi-inner-sep"></div>
+            <div class="fi-desc">Kết nối server tốc độ cao, độ trễ thấp, không giật lag.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="fi-check-col"><div class="fi-check-circle"><i class="fa-solid fa-check"></i></div></div>
+          <div class="fi-sep"></div>
+          <div class="fi-text-col">
+            <div class="fi-title">Chống phát hiện</div>
+            <div class="fi-inner-sep"></div>
+            <div class="fi-desc">Hệ thống bypass nâng cao, an toàn tài khoản tuyệt đối.</div>
+          </div>
+        </div>
+
+        <!-- Item 4: Mua Key -->
+        <div class="feature-item">
+          <div class="fi-check-col">
+            <div class="fi-check-circle">
+              <i class="fa-solid fa-check"></i>
+            </div>
+          </div>
+          <div class="fi-sep"></div>
+          <div class="fi-text-col">
+            <div class="fi-title">Kích Hoạt VIP Key</div>
+            <div class="fi-inner-sep"></div>
+            <div class="fi-desc">Mua key VIP để mở khoá toàn bộ tính năng cao cấp ngay lập tức.</div>
+          </div>
+          <div class="fi-buy-btn" onclick="showTab('shop')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 2L3 6V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V6L18 2H6Z" stroke="rgba(255,255,255,0.65)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              <line x1="3" y1="6" x2="21" y2="6" stroke="rgba(255,255,255,0.65)" stroke-width="1.8"></line>
+              <path d="M16 10C16 12.209 14.209 14 12 14C9.791 14 8 12.209 8 10" stroke="rgba(255,255,255,0.65)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span class="fi-buy-btn-label">Mua Key</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════ TAB 3.5: SHOP ══════════════════ -->
+<div id="shop" class="tab">
+  <div class="shop-wrap">
+
+    <!-- Back button -->
+    <div class="shop-back-btn" onclick="showTab('login')">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+    ...
+  </svg>
+  Quay lại
+</div>
+
+<div class="shop-page-title">AIMLOCK — STORE</div>
+    <!-- VIP Card -->
+    <div class="shop-vip-card">
+      <div class="shop-vip-header">
+        <div class="shop-vip-badge">VIP</div>
+        <div class="shop-vip-name">AIMLOCK GOLD VIP</div>
+        <div class="shop-vip-status">
+          <div class="shop-vip-dot"></div>
+          Đang mở
+        </div>
+      </div>
+      <div class="shop-vip-body">
+        <div class="shop-vip-desc">
+          Phần mềm hỗ trợ game chuyên nghiệp hàng đầu. Tích hợp công nghệ AI tự động,
+          bypass hệ thống chống gian lận, tối ưu hiệu suất toàn diện cho mọi thiết bị Android.
+          Cập nhật liên tục, tương thích Free Fire MAX &amp; Free Fire phiên bản mới nhất.
+        </div>
+        <div class="shop-vip-features">
+          <div class="shop-vip-feat">
+            <div class="shop-vip-feat-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C12 2 6.5 6.5 6.5 13C6.5 16.038 8.462 18.5 12 18.5C15.538 18.5 17.5 16.038 17.5 13C17.5 6.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.8"></path>
+              </svg>
+            </div>
+            <span class="shop-vip-feat-label">Tăng FPS</span>
+          </div>
+          <div class="shop-vip-feat">
+            <div class="shop-vip-feat-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#42a5f5" stroke-width="1.8"></path>
+                <path d="M9 12L11 14L15 10" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+            </div>
+            <span class="shop-vip-feat-label">Aimbot</span>
+          </div>
+          <div class="shop-vip-feat">
+            <div class="shop-vip-feat-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <rect x="5" y="5" width="14" height="14" rx="3" stroke="#42a5f5" stroke-width="1.8"></rect>
+                <path d="M9 12H15M12 9V15" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+            </div>
+            <span class="shop-vip-feat-label">Anti-Recoil</span>
+          </div>
+          <div class="shop-vip-feat">
+            <div class="shop-vip-feat-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#42a5f5" stroke-width="1.8"></path>
+                <path d="M12 8V12L14 14" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+            </div>
+            <span class="shop-vip-feat-label">24/7 Online</span>
+          </div>
+        </div>
+        <div class="shop-vip-price">
+          <span class="shop-vip-price-label">Liên hệ Admin để nhận báo giá key VIP</span>
+          <span class="shop-vip-price-val">VIP KEY</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Card 1 -->
+<div class="shop-admin-card">
+  <div class="shop-admin-header">
+    <img class="shop-admin-avatar"
+         src="https://i.vgy.me/ysm6Yr.png"
+         onerror="this.style.background='#1565c0'"
+         alt="Admin">
+
+    <div class="shop-admin-info">
+      <div class="shop-admin-name">ThinhBYPASS</div>
+      <div class="shop-admin-role">REGLOG Developer</div>
+
+      <div class="shop-admin-verified">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M9 12L11 14L15 10"
+                stroke="#69f0ae"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="9"
+                  stroke="#69f0ae"
+                  stroke-width="1.5"/>
+        </svg>
+        Đã xác minh
+      </div>
+    </div>
+  </div>
+
+  <div class="shop-admin-body">
+    <div class="shop-admin-desc">
+      Nhà phát triển chính thức của REGLOG GAME PRO. Hỗ trợ 24/7, giải đáp key kích hoạt, cài đặt và cập nhật phiên bản mới nhất.
+    </div>
+
+    <div class="shop-admin-socials">
+      <a class="shop-social-link"
+         href="https://www.tiktok.com/@tduonglovtiktok"
+         target="_blank"
+         rel="noopener noreferrer">
+
+        <img class="shop-social-icon"
+             src="https://img.icons8.com/fluent/96/tiktok.png"
+             onerror="this.style.display='none'"
+             alt="TikTok">
+
+        <span class="shop-social-name">TikTok</span>
+      </a>
+
+      <a class="shop-social-link"
+         href="https://zalo.me/0352035713"
+         target="_blank"
+         rel="noopener noreferrer">
+
+        <img class="shop-social-icon"
+             src="https://img.icons8.com/color/96/zalo.png"
+             onerror="this.style.display='none'"
+             alt="Zalo">
+
+        <span class="shop-social-name">Zalo</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Card 2 -->
+<div class="shop-admin-card">
+  <div class="shop-admin-header">
+    <img class="shop-admin-avatar"
+         src="https://i.vgy.me/ysm6Yr.png"
+         onerror="this.style.background='#1565c0'"
+         alt="Admin">
+
+    <div class="shop-admin-info">
+      <div class="shop-admin-name">thinhBYPASS</div>
+      <div class="shop-admin-role">AIMLOCK Support</div>
+
+      <div class="shop-admin-verified">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M9 12L11 14L15 10"
+                stroke="#69f0ae"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="9"
+                  stroke="#69f0ae"
+                  stroke-width="1.5"/>
+        </svg>
+        Đã xác minh
+      </div>
+    </div>
+  </div>
+
+  <div class="shop-admin-body">
+    <div class="shop-admin-desc">
+      bản này đã được bypass key free hoạc 10k nhận key vĩnh viễn
+    </div>
+
+    <div class="shop-admin-socials">
+      <a class="shop-social-link"
+         href="https://www.tiktok.com/@jbdelam0"
+         target="_blank"
+         rel="noopener noreferrer">
+
+        <img class="shop-social-icon"
+             src="https://img.icons8.com/fluent/96/tiktok.png"
+             onerror="this.style.display='none'"
+             alt="TikTok">
+
+        <span class="shop-social-name">TikTok</span>
+      </a>
+
+      <a class="shop-social-link"
+         href="https://zalo.me/0352035713"
+         target="_blank"
+         rel="noopener noreferrer">
+
+        <img class="shop-social-icon"
+             src="https://img.icons8.com/color/96/zalo.png"
+             onerror="this.style.display='none'"
+             alt="Zalo">
+
+        <span class="shop-social-name">Zalo</span>
+      </a>
+    </div>
+  </div>
+</div>
+    <!-- About card -->
+    <div class="shop-about-card">
+      <div class="shop-about-title">Về REGLOG</div>
+      <div class="shop-about-desc">
+        REGLOG GAME PRO là phần mềm hỗ trợ game được phát triển bởi đội ngũ kỹ sư chuyên nghiệp,
+        tập trung vào trải nghiệm người dùng và bảo mật tài khoản tuyệt đối. Chúng tôi cam kết
+        cập nhật liên tục theo từng phiên bản game mới, đảm bảo tính ổn định và hiệu quả cao nhất.
+        Mọi dữ liệu người dùng được mã hóa và bảo vệ theo tiêu chuẩn cao nhất.
+      </div>
+      <div class="shop-about-tags">
+        <span class="shop-about-tag">#FreeFire</span>
+        <span class="shop-about-tag">#FreeFireMAX</span>
+        <span class="shop-about-tag">#GameTool</span>
+        <span class="shop-about-tag">#AntiLag</span>
+        <span class="shop-about-tag">#VIPKey</span>
+        <span class="shop-about-tag">#REGLOG</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════ TAB 3: MAIN APP ══════════════════ -->
+<div id="app" class="tab">
+  <div class="app-wrap">
+
+    <div class="app-page-title">REGLOG</div>
+
+    <!-- Chart card -->
+    <div class="chart-card">
+      <!-- Falling green particles -->
+      <canvas id="particleCanvas"></canvas>
+
+      <div class="chart-inner">
+        <!-- Header -->
+        <div class="chart-header">
+          <span class="chart-title">Thông Số Hệ Thống</span>
+          <div class="chart-stats-row">
+            <div class="chart-stat">CPU&nbsp;<span id="cpuVal">--</span></div>
+            <div class="chart-stat">RAM&nbsp;<span id="ramVal">--</span></div>
+            <div class="chart-stat">PING&nbsp;<span id="pingVal">--</span></div>
+          </div>
+        </div>
+
+        <!-- Live chart -->
+        <div class="chart-card">
+  <canvas id="chartCanvas" height="140"></canvas>
+</div>
+
+        <!-- Metric bar -->
+        <div class="chart-metrics">
+          <div class="chart-metric-item">
+            <div class="cm-label">CPU</div>
+            <div class="cm-value" id="cmCpu">0%</div>
+          </div>
+          <div class="chart-metric-item">
+            <div class="cm-label">RAM</div>
+            <div class="cm-value orange" id="cmRam">0%</div>
+          </div>
+          <div class="chart-metric-item">
+            <div class="cm-label">PING</div>
+            <div class="cm-value green" id="cmPing">0ms</div>
+          </div>
+        </div>
+
+        <!-- 2 Function buttons -->
+        <div class="func-btn-row">
+
+          <!-- Rocket button -->
+          <div class="func-btn" id="btnRocket" onclick="toggleFunc('rocket')">
+            <div class="func-loading-ring"></div>
+            <div class="func-online-dot"></div>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C12 2 6.5 6.5 6.5 13C6.5 16.038 8.462 18.5 12 18.5C15.538 18.5 17.5 16.038 17.5 13C17.5 6.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.5" stroke-linejoin="round"></path>
+              <circle cx="12" cy="13" r="2" fill="#42a5f5"></circle>
+              <path d="M8.5 18L6 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M15.5 18L18 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M12 18.5V22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+            <div class="func-btn-label" id="labelRocket">Tăng Tốc</div>
+            <div class="func-btn-status" id="statusRocket">TẮT</div>
+          </div>
+
+          <!-- CPU button -->
+          <div class="func-btn" id="btnCpu" onclick="toggleFunc('cpu')">
+            <div class="func-loading-ring"></div>
+            <div class="func-online-dot"></div>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="7" y="7" width="10" height="10" rx="2" stroke="#42a5f5" stroke-width="1.5"></rect>
+              <path d="M9 7V5M12 7V5M15 7V5" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M9 19V17M12 19V17M15 19V17" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M7 9H5M7 12H5M7 15H5" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M19 9H17M19 12H17M19 15H17" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <rect x="9.5" y="9.5" width="5" height="5" rx="1" fill="#42a5f5" opacity="0.35"></rect>
+            </svg>
+            <div class="func-btn-label" id="labelCpu">Tối Ưu CPU</div>
+            <div class="func-btn-status" id="statusCpu">TẮT</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         NEW: FEATURES PANEL — 7 chức năng
+    ════════════════════════════════════════ -->
+    <div class="features-panel">
+      <!-- Red falling particles background -->
+      <canvas id="featParticleCanvas"></canvas>
+
+      <!-- Panel header -->
+      <div class="features-panel-header">
+        <div class="features-panel-header-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C12 2 5 7.5 5 14C5 17.866 8.134 21 12 21C15.866 21 19 17.866 19 14C19 7.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.8" stroke-linejoin="round"></path>
+            <circle cx="12" cy="14" r="2.5" fill="#42a5f5"></circle>
+            <path d="M9 20L7 23" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M15 20L17 23" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M12 21V23" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <span class="features-panel-title">FUNCTION PERIUMLOCK</span>
+        <span class="features-panel-badge">SUPER</span>
+      </div>
+
+      <!-- 7 feature rows -->
+      <div class="feat-list">
+
+        <!-- Feature 1: Tăng FPS -->
+        <div class="feat-item" id="feat-0">
+          <label class="feat-switch">
+            <input type="checkbox" onchange="toggleFeat(0, this)">
+            <div class="feat-switch-track"></div>
+            <div class="feat-switch-thumb"></div>
+          </label>
+          <div class="feat-text">
+            <div class="feat-name">BOOST PERIUM</div>
+            <div class="feat-desc">Boost khung hình cực đỉnh, giảm render load, gameplay mượt mà tối đa.</div>
+          </div>
+          <div class="feat-status-tag" id="feat-tag-0">TẮT</div>
+          <div class="feat-icon">
+            <!-- Rocket SVG -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C12 2 6.5 6.5 6.5 13C6.5 16.038 8.462 18.5 12 18.5C15.538 18.5 17.5 16.038 17.5 13C17.5 6.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.5" stroke-linejoin="round"></path>
+              <circle cx="12" cy="13" r="2" fill="#42a5f5"></circle>
+              <path d="M8.5 18L6 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M15.5 18L18 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M12 18.5V22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Feature 2: Chống Lag -->
+        <div class="feat-item" id="feat-1">
+          <label class="feat-switch">
+            <input type="checkbox" onchange="toggleFeat(1, this)">
+            <div class="feat-switch-track"></div>
+            <div class="feat-switch-thumb"></div>
+          </label>
+          <div class="feat-text">
+            <div class="feat-name">FIX LAG</div>
+            <div class="feat-desc">Tối ưu mạng, giảm ping tức thì, loại bỏ lag đột ngột trong trận đấu.</div>
+          </div>
+          <div class="feat-status-tag" id="feat-tag-1">TẮT</div>
+          <div class="feat-icon">
+            <!-- Rocket SVG -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C12 2 6.5 6.5 6.5 13C6.5 16.038 8.462 18.5 12 18.5C15.538 18.5 17.5 16.038 17.5 13C17.5 6.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.5" stroke-linejoin="round"></path>
+              <circle cx="12" cy="13" r="2" fill="#42a5f5"></circle>
+              <path d="M8.5 18L6 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M15.5 18L18 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M12 18.5V22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Feature 3: Auto Aim -->
+        <div class="feat-item" id="feat-2">
+          <label class="feat-switch">
+            <input type="checkbox" onchange="toggleFeat(2, this)">
+            <div class="feat-switch-track"></div>
+            <div class="feat-switch-thumb"></div>
+          </label>
+          <div class="feat-text">
+            <div class="feat-name">AIMLOCK PRO</div>
+            <div class="feat-desc">Hệ thống auto-aim thông minh, khoá mục tiêu cực nhanh, headshot tối đa.</div>
+          </div>
+          <div class="feat-status-tag" id="feat-tag-2">TẮT</div>
+          <div class="feat-icon">
+            <!-- Skull SVG -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3C8.134 3 5 6.134 5 10C5 12.386 6.19 14.496 8 15.8V18H10V16H14V18H16V15.8C17.81 14.496 19 12.386 19 10C19 6.134 15.866 3 12 3Z" stroke="#ef5350" stroke-width="1.5" stroke-linejoin="round"></path>
+              <circle cx="9.5" cy="10" r="1.5" fill="#ef5350"></circle>
+              <circle cx="14.5" cy="10" r="1.5" fill="#ef5350"></circle>
+              <path d="M10 18H14V21H10V18Z" stroke="#ef5350" stroke-width="1.3" stroke-linejoin="round"></path>
+              <path d="M11 19.5H13" stroke="#ef5350" stroke-width="1" stroke-linecap="round"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Feature 4: Chống Phát Hiện -->
+        <div class="feat-item" id="feat-3">
+          <label class="feat-switch">
+            <input type="checkbox" onchange="toggleFeat(3, this)">
+            <div class="feat-switch-track"></div>
+            <div class="feat-switch-thumb"></div>
+          </label>
+          <div class="feat-text">
+            <div class="feat-name">AOTU AIM</div>
+            <div class="feat-desc">Khi kéo tâm tỉ lệ ghim đầu sẽ càng tăng , chơi càng lâu aim càng ghim mạnh.</div>
+          </div>
+          <div class="feat-status-tag" id="feat-tag-3">TẮT</div>
+          <div class="feat-icon">
+            <!-- Skull SVG -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3C8.134 3 5 6.134 5 10C5 12.386 6.19 14.496 8 15.8V18H10V16H14V18H16V15.8C17.81 14.496 19 12.386 19 10C19 6.134 15.866 3 12 3Z" stroke="#ef5350" stroke-width="1.5" stroke-linejoin="round"></path>
+              <circle cx="9.5" cy="10" r="1.5" fill="#ef5350"></circle>
+              <circle cx="14.5" cy="10" r="1.5" fill="#ef5350"></circle>
+              <path d="M10 18H14V21H10V18Z" stroke="#ef5350" stroke-width="1.3" stroke-linejoin="round"></path>
+              <path d="M11 19.5H13" stroke="#ef5350" stroke-width="1" stroke-linecap="round"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Feature 5: Hack Bản Đồ -->
+        <div class="feat-item" id="feat-4">
+          <label class="feat-switch">
+            <input type="checkbox" onchange="toggleFeat(4, this)">
+            <div class="feat-switch-track"></div>
+            <div class="feat-switch-thumb"></div>
+          </label>
+          <div class="feat-text">
+            <div class="feat-name">SENSI PRIME</div>
+            <div class="feat-desc">Cảm biến nhạy màn hình trở nên nhanh chóng hơn khi kéo tâm.</div>
+          </div>
+          <div class="feat-status-tag" id="feat-tag-4">TẮT</div>
+          <div class="feat-icon">
+            <!-- Skull SVG -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3C8.134 3 5 6.134 5 10C5 12.386 6.19 14.496 8 15.8V18H10V16H14V18H16V15.8C17.81 14.496 19 12.386 19 10C19 6.134 15.866 3 12 3Z" stroke="#ef5350" stroke-width="1.5" stroke-linejoin="round"></path>
+              <circle cx="9.5" cy="10" r="1.5" fill="#ef5350"></circle>
+              <circle cx="14.5" cy="10" r="1.5" fill="#ef5350"></circle>
+              <path d="M10 18H14V21H10V18Z" stroke="#ef5350" stroke-width="1.3" stroke-linejoin="round"></path>
+              <path d="M11 19.5H13" stroke="#ef5350" stroke-width="1" stroke-linecap="round"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Feature 6: Tăng Sát Thương -->
+        <div class="feat-item" id="feat-5">
+          <label class="feat-switch">
+            <input type="checkbox" onchange="toggleFeat(5, this)">
+            <div class="feat-switch-track"></div>
+            <div class="feat-switch-thumb"></div>
+          </label>
+          <div class="feat-text">
+            <div class="feat-name">RECOIL PECHK</div>
+            <div class="feat-desc">Giảm thiểu rung tâm khi kéo tâm , hiệu quả nhanh chóng.</div>
+          </div>
+          <div class="feat-status-tag" id="feat-tag-5">TẮT</div>
+          <div class="feat-icon">
+            <!-- Rocket SVG -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C12 2 6.5 6.5 6.5 13C6.5 16.038 8.462 18.5 12 18.5C15.538 18.5 17.5 16.038 17.5 13C17.5 6.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.5" stroke-linejoin="round"></path>
+              <circle cx="12" cy="13" r="2" fill="#42a5f5"></circle>
+              <path d="M8.5 18L6 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M15.5 18L18 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M12 18.5V22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Feature 7: Bảo Vệ Tài Khoản -->
+        <div class="feat-item" id="feat-6">
+          <label class="feat-switch">
+            <input type="checkbox" onchange="toggleFeat(6, this)">
+            <div class="feat-switch-track"></div>
+            <div class="feat-switch-thumb"></div>
+          </label>
+          <div class="feat-text">
+            <div class="feat-name">PUIS AIMLOCK</div>
+            <div class="feat-desc">Hỗ trợ tỉ lệ kéo tâm súng và di chuyển theo địch cực mạnh.</div>
+          </div>
+          <div class="feat-status-tag" id="feat-tag-6">TẮT</div>
+          <div class="feat-icon">
+            <!-- Rocket SVG -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C12 2 6.5 6.5 6.5 13C6.5 16.038 8.462 18.5 12 18.5C15.538 18.5 17.5 16.038 17.5 13C17.5 6.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.5" stroke-linejoin="round"></path>
+              <circle cx="12" cy="13" r="2" fill="#42a5f5"></circle>
+              <path d="M8.5 18L6 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M15.5 18L18 22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M12 18.5V22" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CODER CONSOLE PANEL — bên dưới 7 chức năng -->
+      <div class="coder-panel" id="coderPanel">
+        <!-- Top bar -->
+        <div class="coder-topbar">
+          <div class="coder-topbar-dots">
+            <div class="coder-dot"></div>
+            <div class="coder-dot"></div>
+            <div class="coder-dot"></div>
+          </div>
+          <span class="coder-topbar-title">CHEAT ENGINE v2.4 — LOG OUTPUT</span>
+          <!-- Terminal SVG icon -->
+          <svg class="coder-topbar-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="3" width="20" height="16" rx="2" stroke="#42a5f5" stroke-width="1.5"></rect>
+            <path d="M6 8L10 12L6 16" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M12 16H18" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+          <div class="coder-status-led" id="coderLed"></div>
+        </div>
+        <!-- Code body -->
+        <div class="coder-body" id="coderBody">
+          <div class="coder-idle" id="coderIdle">
+            <svg class="coder-idle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="3" width="20" height="16" rx="2" stroke="#42a5f5" stroke-width="1.5"></rect>
+              <path d="M6 8L10 12L6 16" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M12 16H18" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+            <span class="coder-idle-text">// Bật chức năng để khởi động module...<span class="coder-cursor"></span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         2 ACTION SETTING BOXES
+    ════════════════════════════════════════ -->
+    <div class="action-boxes-wrap">
+
+      <!-- Action Box 1: Tối Ưu Bộ Nhớ -->
+      <div class="action-box" id="actionBox0">
+        <canvas class="action-box-canvas" id="actionCanvas0"></canvas>
+        <div class="action-box-inner">
+          <!-- Spinning gear icon -->
+          <div class="action-gear-wrap">
+            <svg class="action-gear-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#42a5f5" stroke-width="1.5"></path>
+              <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="#42a5f5" stroke-width="1.5"></path>
+            </svg>
+          </div>
+          <!-- Text -->
+          <div class="action-text">
+            <div class="action-title">Tối Ưu Bộ Nhớ RAM</div>
+            <div class="action-desc">Dọn dẹp cache, giải phóng RAM tức thời, tăng tốc toàn bộ hệ thống game lên tối đa.</div>
+          </div>
+          <!-- Action button -->
+          <div class="action-btn" id="actionBtn0" onclick="toggleActionBtn(0)">
+            <span class="action-btn-rocket">
+              <!-- Rocket icon -->
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C12 2 6.5 6.5 6.5 13C6.5 16.038 8.462 18.5 12 18.5C15.538 18.5 17.5 16.038 17.5 13C17.5 6.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.8" stroke-linejoin="round"></path>
+                <circle cx="12" cy="13" r="2" fill="#42a5f5"></circle>
+                <path d="M8.5 18L6 22" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+                <path d="M15.5 18L18 22" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+                <path d="M12 18.5V22" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+            </span>
+            <span class="action-btn-check">
+              <!-- Check icon -->
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13L9 17L19 7" stroke="#42a5f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="action-btn-label" id="actionBtnLabel0">Kích Hoạt</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Box 2: Tăng Tốc Mạng -->
+      <div class="action-box" id="actionBox1">
+        <canvas class="action-box-canvas" id="actionCanvas1"></canvas>
+        <div class="action-box-inner">
+          <!-- Spinning gear icon -->
+          <div class="action-gear-wrap">
+            <svg class="action-gear-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#42a5f5" stroke-width="1.5"></path>
+              <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="#42a5f5" stroke-width="1.5"></path>
+            </svg>
+          </div>
+          <!-- Text -->
+          <div class="action-text">
+            <div class="action-title">Tăng Tốc Kết Nối Mạng</div>
+            <div class="action-desc">Ưu tiên băng thông game, tối ưu gói tin UDP, giảm ping xuống mức thấp nhất có thể.</div>
+          </div>
+          <!-- Action button -->
+          <div class="action-btn" id="actionBtn1" onclick="toggleActionBtn(1)">
+            <span class="action-btn-rocket">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C12 2 6.5 6.5 6.5 13C6.5 16.038 8.462 18.5 12 18.5C15.538 18.5 17.5 16.038 17.5 13C17.5 6.5 12 2 12 2Z" stroke="#42a5f5" stroke-width="1.8" stroke-linejoin="round"></path>
+                <circle cx="12" cy="13" r="2" fill="#42a5f5"></circle>
+                <path d="M8.5 18L6 22" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+                <path d="M15.5 18L18 22" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+                <path d="M12 18.5V22" stroke="#42a5f5" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+            </span>
+            <span class="action-btn-check">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13L9 17L19 7" stroke="#42a5f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="action-btn-label" id="actionBtnLabel1">Kích Hoạt</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         GAME PICKER BOX
+    ════════════════════════════════════════ -->
+    <div class="game-picker-box" id="gamePickerBox">
+      <!-- Corner stamp -->
+      <div class="gp-stamp"></div>
+
+      <!-- Circular button: + icon or selected game logo -->
+      <div class="gp-circle-btn" id="gpCircleBtn" onclick="openGameModal()">
+        <!-- Plus icon (default) -->
+        <svg class="gp-plus-svg" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="13" y1="4" x2="13" y2="22" stroke="#42a5f5" stroke-width="2.2" stroke-linecap="round"></line>
+          <line x1="4" y1="13" x2="22" y2="13" stroke="#42a5f5" stroke-width="2.2" stroke-linecap="round"></line>
+        </svg>
+        <!-- Selected game icon (hidden by default) -->
+        <img class="gp-selected-img" id="gpSelectedImg" src="" alt="">
+      </div>
+
+      <!-- Label -->
+      <div class="gp-label" id="gpLabel">Chọn Game</div>
+
+      <!-- Info bar (shown after selection) -->
+      <div class="gp-info-bar" id="gpInfoBar">
+        <img class="gp-info-img" id="gpInfoImg" src="" alt="">
+        <div class="gp-info-text">
+          <div class="gp-info-name" id="gpInfoName">—</div>
+          <div class="gp-info-status">
+            <div class="gp-info-dot"></div>
+            <span id="gpInfoStatus">Đang Hoạt Động</span>
+          </div>
+        </div>
+        <div class="gp-info-version" id="gpInfoVersion"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         RED FUNCTION BOX — 4 Items
+    ════════════════════════════════════════ -->
+    <div class="func-red-box">
+      <!-- Header -->
+      <div class="func-red-header">
+        <div class="func-red-header-dot"></div>
+        <div class="func-red-header-title">AIMLOCK GOLD v2.1 </div>
+        <div class="func-red-header-badge">ELICES PRIME</div>
+      </div>
+
+      <!-- 4 radio function rows -->
+      <div class="func-radio-list">
+
+        <!-- Item 0 -->
+        <div class="func-radio-row" id="fRadio0" onclick="toggleFuncRadio(0)">
+          <div class="func-radio-btn">
+            <!-- Plus (default) -->
+            <svg class="func-radio-plus" width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <line x1="6.5" y1="2" x2="6.5" y2="11" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round"></line>
+              <line x1="2" y1="6.5" x2="11" y2="6.5" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round"></line>
+            </svg>
+            <!-- Skull (active) -->
+            <svg class="func-radio-skull" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3C8.13 3 5 6.13 5 10C5 12.38 6.19 14.47 8 15.74V17C8 17.55 8.45 18 9 18H15C15.55 18 16 17.55 16 17V15.74C17.81 14.47 19 12.38 19 10C19 6.13 15.87 3 12 3Z" fill="#ef5350"></path>
+              <rect x="9" y="18" width="6" height="2" rx="1" fill="#ef5350"></rect>
+              <rect x="10" y="20" width="4" height="1.5" rx="0.75" fill="#ef5350"></rect>
+              <ellipse cx="9.5" cy="10" rx="1.5" ry="2" fill="#06030a"></ellipse>
+              <ellipse cx="14.5" cy="10" rx="1.5" ry="2" fill="#06030a"></ellipse>
+            </svg>
+          </div>
+          <div class="func-radio-text">
+            <div class="func-radio-name">Aimbot Precision</div>
+            <div class="func-radio-desc">Tự động khóa &amp; ngắm mục tiêu chính xác tuyệt đối.</div>
+          </div>
+        </div>
+
+        <!-- Item 1 -->
+        <div class="func-radio-row" id="fRadio1" onclick="toggleFuncRadio(1)">
+          <div class="func-radio-btn">
+            <svg class="func-radio-plus" width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <line x1="6.5" y1="2" x2="6.5" y2="11" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round"></line>
+              <line x1="2" y1="6.5" x2="11" y2="6.5" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round"></line>
+            </svg>
+            <svg class="func-radio-skull" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3C8.13 3 5 6.13 5 10C5 12.38 6.19 14.47 8 15.74V17C8 17.55 8.45 18 9 18H15C15.55 18 16 17.55 16 17V15.74C17.81 14.47 19 12.38 19 10C19 6.13 15.87 3 12 3Z" fill="#ef5350"></path>
+              <rect x="9" y="18" width="6" height="2" rx="1" fill="#ef5350"></rect>
+              <rect x="10" y="20" width="4" height="1.5" rx="0.75" fill="#ef5350"></rect>
+              <ellipse cx="9.5" cy="10" rx="1.5" ry="2" fill="#06030a"></ellipse>
+              <ellipse cx="14.5" cy="10" rx="1.5" ry="2" fill="#06030a"></ellipse>
+            </svg>
+          </div>
+          <div class="func-radio-text">
+            <div class="func-radio-name">AntiRecoil Pro</div>
+            <div class="func-radio-desc">Triệt tiêu hoàn toàn độ giật súng khi bắn liên tục.</div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="func-radio-row" id="fRadio2" onclick="toggleFuncRadio(2)">
+          <div class="func-radio-btn">
+            <svg class="func-radio-plus" width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <line x1="6.5" y1="2" x2="6.5" y2="11" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round"></line>
+              <line x1="2" y1="6.5" x2="11" y2="6.5" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round"></line>
+            </svg>
+            <svg class="func-radio-skull" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3C8.13 3 5 6.13 5 10C5 12.38 6.19 14.47 8 15.74V17C8 17.55 8.45 18 9 18H15C15.55 18 16 17.55 16 17V15.74C17.81 14.47 19 12.38 19 10C19 6.13 15.87 3 12 3Z" fill="#ef5350"></path>
+              <rect x="9" y="18" width="6" height="2" rx="1" fill="#ef5350"></rect>
+              <rect x="10" y="20" width="4" height="1.5" rx="0.75" fill="#ef5350"></rect>
+              <ellipse cx="9.5" cy="10" rx="1.5" ry="2" fill="#06030a"></ellipse>
+              <ellipse cx="14.5" cy="10" rx="1.5" ry="2" fill="#06030a"></ellipse>
+            </svg>
+          </div>
+          <div class="func-radio-text">
+            <div class="func-radio-name">SHOTBOT PIKER</div>
+            <div class="func-radio-desc">Nhẹ tâm cho các loại súng Shotgun .</div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="func-radio-row" id="fRadio3" onclick="toggleFuncRadio(3)">
+          <div class="func-radio-btn">
+            <svg class="func-radio-plus" width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <line x1="6.5" y1="2" x2="6.5" y2="11" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round"></line>
+              <line x1="2" y1="6.5" x2="11" y2="6.5" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round"></line>
+            </svg>
+            <svg class="func-radio-skull" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3C8.13 3 5 6.13 5 10C5 12.38 6.19 14.47 8 15.74V17C8 17.55 8.45 18 9 18H15C15.55 18 16 17.55 16 17V15.74C17.81 14.47 19 12.38 19 10C19 6.13 15.87 3 12 3Z" fill="#ef5350"></path>
+              <rect x="9" y="18" width="6" height="2" rx="1" fill="#ef5350"></rect>
+              <rect x="10" y="20" width="4" height="1.5" rx="0.75" fill="#ef5350"></rect>
+              <ellipse cx="9.5" cy="10" rx="1.5" ry="2" fill="#06030a"></ellipse>
+              <ellipse cx="14.5" cy="10" rx="1.5" ry="2" fill="#06030a"></ellipse>
+            </svg>
+          </div>
+          <div class="func-radio-text">
+            <div class="func-radio-name">SMOOTH RIGHT</div>
+            <div class="func-radio-desc">Tăng độ cảm biến khi trượt lên để kéo tâm.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         INJECT REGLOG v1 BOX
+    ════════════════════════════════════════ -->
+    <div class="inject-box" id="injectBox">
+      <!-- Toggle row -->
+      <div class="inject-row" onclick="toggleInject()">
+        <div class="inject-radio-btn">
+          <!-- Off state: empty circle hint -->
+          <svg class="inject-radio-off" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <circle cx="6" cy="6" r="4.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"></circle>
+          </svg>
+          <!-- On state: glowing dot -->
+          <svg class="inject-radio-on" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <circle cx="6" cy="6" r="4.5" stroke="#42a5f5" stroke-width="1.2"></circle>
+            <circle cx="6" cy="6" r="2.5" fill="#42a5f5"></circle>
+          </svg>
+        </div>
+        <div class="inject-text">
+          <div class="inject-name">Inject REGLOG v1</div>
+          <div class="inject-desc">Tiến Trình Tối ưu các loại súng cơ bản </div>
+        </div>
+      </div>
+
+      <!-- Process area (visible when active) -->
+      <div class="inject-process" id="injectProcess">
+        <!-- Spinner row -->
+        <div class="inject-spinner-row">
+          <svg class="inject-spin-svg" id="injectSpinSvg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#42a5f5" stroke-width="1.5"></path>
+            <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="#42a5f5" stroke-width="1.5"></path>
+          </svg>
+          <span class="inject-spin-label" id="injectSpinLabel">Đang khởi tạo inject…</span>
+        </div>
+
+        <!-- Gun grid -->
+        <div class="inject-guns" id="injectGuns">
+          <!-- 7 guns — rendered by JS -->
+        <div class="gun-slot" id="gunSlot0">
+        <div class="gun-icon-wrap" id="gunWrap0">
+          <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="9" width="22" height="9" rx="2.5" fill="#42a5f5" opacity="0.85"></rect>
+            <rect x="26" y="11" width="16" height="5" rx="1.5" fill="#42a5f5"></rect>
+            <path d="M10 18 L9 27 Q9 28.5 10.5 28.5 L15.5 28.5 Q17 28.5 17 27 L16 18 Z" fill="#42a5f5" opacity="0.75"></path>
+            <path d="M10 18 Q13.5 22.5 16 18" stroke="#42a5f5" stroke-width="1" fill="none" opacity="0.55"></path>
+            <rect x="15" y="6.5" width="5" height="3" rx="1" fill="#42a5f5" opacity="0.45"></rect>
+            <rect x="0" y="12" width="5" height="5" rx="1.5" fill="#42a5f5" opacity="0.5"></rect>
+          </svg>
+        </div>
+        <div class="gun-name-label">MP40</div></div><div class="gun-slot" id="gunSlot1">
+        <div class="gun-icon-wrap" id="gunWrap1">
+          <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="9" width="22" height="9" rx="2.5" fill="#66bb6a" opacity="0.85"></rect>
+            <rect x="26" y="11" width="16" height="5" rx="1.5" fill="#66bb6a"></rect>
+            <path d="M10 18 L9 27 Q9 28.5 10.5 28.5 L15.5 28.5 Q17 28.5 17 27 L16 18 Z" fill="#66bb6a" opacity="0.75"></path>
+            <path d="M10 18 Q13.5 22.5 16 18" stroke="#66bb6a" stroke-width="1" fill="none" opacity="0.55"></path>
+            <rect x="15" y="6.5" width="5" height="3" rx="1" fill="#66bb6a" opacity="0.45"></rect>
+            <rect x="0" y="12" width="5" height="5" rx="1.5" fill="#66bb6a" opacity="0.5"></rect>
+          </svg>
+        </div>
+        <div class="gun-name-label">UMP</div></div><div class="gun-slot" id="gunSlot2">
+        <div class="gun-icon-wrap" id="gunWrap2">
+          <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="9" width="22" height="9" rx="2.5" fill="#ffa726" opacity="0.85"></rect>
+            <rect x="26" y="11" width="16" height="5" rx="1.5" fill="#ffa726"></rect>
+            <path d="M10 18 L9 27 Q9 28.5 10.5 28.5 L15.5 28.5 Q17 28.5 17 27 L16 18 Z" fill="#ffa726" opacity="0.75"></path>
+            <path d="M10 18 Q13.5 22.5 16 18" stroke="#ffa726" stroke-width="1" fill="none" opacity="0.55"></path>
+            <rect x="15" y="6.5" width="5" height="3" rx="1" fill="#ffa726" opacity="0.45"></rect>
+            <rect x="0" y="12" width="5" height="5" rx="1.5" fill="#ffa726" opacity="0.5"></rect>
+          </svg>
+        </div>
+        <div class="gun-name-label">SCAR</div></div><div class="gun-slot" id="gunSlot3">
+        <div class="gun-icon-wrap" id="gunWrap3">
+          <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="9" width="22" height="9" rx="2.5" fill="#ef5350" opacity="0.85"></rect>
+            <rect x="26" y="11" width="16" height="5" rx="1.5" fill="#ef5350"></rect>
+            <path d="M10 18 L9 27 Q9 28.5 10.5 28.5 L15.5 28.5 Q17 28.5 17 27 L16 18 Z" fill="#ef5350" opacity="0.75"></path>
+            <path d="M10 18 Q13.5 22.5 16 18" stroke="#ef5350" stroke-width="1" fill="none" opacity="0.55"></path>
+            <rect x="15" y="6.5" width="5" height="3" rx="1" fill="#ef5350" opacity="0.45"></rect>
+            <rect x="0" y="12" width="5" height="5" rx="1.5" fill="#ef5350" opacity="0.5"></rect>
+          </svg>
+        </div>
+        <div class="gun-name-label">AK47</div></div><div class="gun-slot" id="gunSlot4">
+        <div class="gun-icon-wrap" id="gunWrap4">
+          <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="9" width="22" height="9" rx="2.5" fill="#ab47bc" opacity="0.85"></rect>
+            <rect x="26" y="11" width="16" height="5" rx="1.5" fill="#ab47bc"></rect>
+            <path d="M10 18 L9 27 Q9 28.5 10.5 28.5 L15.5 28.5 Q17 28.5 17 27 L16 18 Z" fill="#ab47bc" opacity="0.75"></path>
+            <path d="M10 18 Q13.5 22.5 16 18" stroke="#ab47bc" stroke-width="1" fill="none" opacity="0.55"></path>
+            <rect x="15" y="6.5" width="5" height="3" rx="1" fill="#ab47bc" opacity="0.45"></rect>
+            <rect x="0" y="12" width="5" height="5" rx="1.5" fill="#ab47bc" opacity="0.5"></rect>
+          </svg>
+        </div>
+        <div class="gun-name-label">P90</div></div><div class="gun-slot" id="gunSlot5">
+        <div class="gun-icon-wrap" id="gunWrap5">
+          <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="9" width="22" height="9" rx="2.5" fill="#26c6da" opacity="0.85"></rect>
+            <rect x="26" y="11" width="16" height="5" rx="1.5" fill="#26c6da"></rect>
+            <path d="M10 18 L9 27 Q9 28.5 10.5 28.5 L15.5 28.5 Q17 28.5 17 27 L16 18 Z" fill="#26c6da" opacity="0.75"></path>
+            <path d="M10 18 Q13.5 22.5 16 18" stroke="#26c6da" stroke-width="1" fill="none" opacity="0.55"></path>
+            <rect x="15" y="6.5" width="5" height="3" rx="1" fill="#26c6da" opacity="0.45"></rect>
+            <rect x="0" y="12" width="5" height="5" rx="1.5" fill="#26c6da" opacity="0.5"></rect>
+          </svg>
+        </div>
+        <div class="gun-name-label">M1887</div></div><div class="gun-slot" id="gunSlot6">
+        <div class="gun-icon-wrap" id="gunWrap6">
+          <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="9" width="22" height="9" rx="2.5" fill="#ffee58" opacity="0.85"></rect>
+            <rect x="26" y="11" width="16" height="5" rx="1.5" fill="#ffee58"></rect>
+            <path d="M10 18 L9 27 Q9 28.5 10.5 28.5 L15.5 28.5 Q17 28.5 17 27 L16 18 Z" fill="#ffee58" opacity="0.75"></path>
+            <path d="M10 18 Q13.5 22.5 16 18" stroke="#ffee58" stroke-width="1" fill="none" opacity="0.55"></path>
+            <rect x="15" y="6.5" width="5" height="3" rx="1" fill="#ffee58" opacity="0.45"></rect>
+            <rect x="0" y="12" width="5" height="5" rx="1.5" fill="#ffee58" opacity="0.5"></rect>
+          </svg>
+        </div>
+        <div class="gun-name-label">M1014</div></div></div>
+
+        <!-- Success message -->
+        <div class="inject-success" id="injectSuccess">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M5 13L9 17L19 7" stroke="#69f0ae" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          Inject thành công — 7/7 modules loaded!
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+      KEAPIY AUTH — Xác thực bằng KEY VĨNH VIỄN (không cần API)
+  ═══════════════════════════════════════════════════════ -->
+<script>
+// 🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐
+// KEY VĨNH VIỄN - THAY ĐỔI KEY CỦA BẠN TẠI ĐÂY
+// 🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐🔐
+const PERMANENT_KEY = "AIMLOCK2026-VIP-4EVER"; // 👈 SỬA KEY CỦA BẠN VÀO ĐÂY
+
+// Hỗ trợ nhiều key (nếu muốn)
+const VALID_KEYS = [
+    "AIMLOCK2026-VIP-4EVER",        // Key chính
+    // "KEYADI987", "KEYADI123", "KEYDIC901"       // Thêm key khác nếu cần
+];
+
+// Hàm kiểm tra key (không cần gọi API)
+function verifyKey(inputKey) {
+    const trimmed = inputKey.trim();
+    // Kiểm tra key chính
+    if (trimmed === PERMANENT_KEY) return true;
+    // Kiểm tra danh sách key phụ (nếu có)
+    return VALID_KEYS.some(key => key === trimmed);
+}
+
+// Hàm xác thực key (thay thế hoàn toàn API)
+async function checkKey(val) {
+    if (keyValidated) return;
+    
+    const trimmedVal = val.trim();
+    
+    if (verifyKey(trimmedVal)) {
+        // ✅ Xác thực thành công
+        localStorage.setItem('_pl_saved_key', val);
+        savedKeyCheckDone = true;
+        keyValidated = true;
+        keyInput.classList.add('valid');
+        setStatus('success', 'fa-solid fa-circle-check', '✅ Key hợp lệ!', 
+            'Xác thực thành công! Key vĩnh viễn đã được kích hoạt.');
+        
+        setTimeout(() => {
+            showTab('app');
+            initApp();
+        }, 600);
+    } else {
+        // ❌ Key không hợp lệ
+        savedKeyCheckDone = true;
+        let errorTitle = '❌ Key không hợp lệ';
+        let errorDesc = 'Key bạn nhập không đúng. Vui lòng kiểm tra lại hoặc liên hệ Admin.';
+        
+        keyInput.classList.add('invalid');
+        setStatus('error', 'fa-solid fa-circle-xmark', errorTitle, errorDesc);
+        setTimeout(() => {
+            keyInput.classList.remove('invalid');
+            keyInput.value = '';
+            localStorage.removeItem('_pl_saved_key');
+            setStatus('idle', 'fa-solid fa-key', 'Chưa nhập key', 
+                'Vui lòng nhập key vĩnh viễn để kích hoạt.');
+        }, 2200);
+    }
+}
+
+  /* Device fingerprint — nhận dạng thiết bị */
+  function getDeviceId() {
+    let did = localStorage.getItem('_pl_device');
+    if (!did) {
+      const raw = [navigator.userAgent, screen.width, screen.height,
+                   navigator.language, navigator.hardwareConcurrency || 0].join('|');
+      did = btoa(unescape(encodeURIComponent(raw))).replace(/[^a-zA-Z0-9]/g,'').slice(0, 28);
+      localStorage.setItem('_pl_device', did);
+    }
+    return did;
+  }
+
+  /* ══════════════════════════════════════
+     CLICK SOUND — Mechanical tick (tạch)
+  ══════════════════════════════════════ */
+  function playTick() {
+    try {
+      const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+      const buf  = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.038), ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) {
+        const t = i / data.length;
+        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 2.2) * 0.55;
+      }
+      const src  = ctx.createBufferSource();
+      const gain = ctx.createGain();
+      const hp   = ctx.createBiquadFilter();
+      hp.type = 'highpass'; hp.frequency.value = 700;
+      src.buffer = buf;
+      src.connect(hp); hp.connect(gain); gain.connect(ctx.destination);
+      gain.gain.value = 1;
+      src.start();
+      setTimeout(() => { try { ctx.close(); } catch(e){} }, 200);
+    } catch(e) {}
+  }
+
+  /* Attach click sound to ALL interactive elements globally */
+  document.addEventListener('click', function(e) {
+    const SELECTORS = [
+      'button', '[onclick]', 'label', 'a',
+      '.func-btn', '.feat-switch', '.action-btn',
+      '.func-radio-row', '.inject-row', '.inject-radio-btn',
+      '.gp-circle-btn', '.gp-game-option', '.gp-modal-close',
+      '.splash-drop-btn', '.eye-btn', '.fi-buy-btn',
+      '.shop-back-btn', '.shop-social-link',
+      '.action-gear-wrap', '.gp-stamp'
+    ].join(',');
+    if (e.target.closest(SELECTORS)) playTick();
+  }, true);
+
+  /* ── Menu copy / zoom protection ── */
+  (function menuProtection() {
+    document.addEventListener('copy', e => {
+      if (!e.target.closest('input,textarea,select')) e.preventDefault();
+    });
+
+    document.addEventListener('contextmenu', e => {
+      if (!e.target.closest('input,textarea,select')) e.preventDefault();
+    });
+
+    document.addEventListener('selectstart', e => {
+      if (!e.target.closest('input,textarea,select')) e.preventDefault();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && ['c', 'C', '=', '+', '-', '0', 'NumpadAdd', 'NumpadSubtract', 'Numpad0'].includes(e.key) && !e.target.closest('input,textarea,select')) {
+        e.preventDefault();
+      }
+    });
+
+    document.addEventListener('wheel', e => {
+      if (e.ctrlKey && !e.target.closest('input,textarea,select')) e.preventDefault();
+    }, { passive: false });
+  })();
+
+  /* ── Tab switch ── */
+  function showTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active', 'fade-in'));
+    const next = document.getElementById(id);
+    if (next) {
+      next.classList.add('active', 'fade-in');
+    }
+  }
+
+  /* ── Dropdown toggle ── */
+  function toggleDrop() {
+    const panel = document.getElementById('dropPanel');
+    const arrow = document.getElementById('dropArrow');
+    const isOpen = panel.classList.toggle('open');
+    arrow.classList.toggle('open', isOpen);
+  }
+
+  /* ── Skip splash loader and show login immediately ── */
+  document.addEventListener('DOMContentLoaded', () => {
+    showTab('login');
+    startBrandAnimation();
+  });
+
+  /* ── Header brand letter reveal loop ── */
+  (function headerAnim() {
+    const el  = document.getElementById('headerBrand');
+    const txt = 'AimLock Gold';
+    let i = 0;
+    function next() {
+      if (i <= txt.length) {
+        el.textContent = txt.slice(0, i);
+        i++;
+        setTimeout(next, 88);
+      } else {
+        setTimeout(() => { i = 0; next(); }, 1500);
+      }
+    }
+    next();
+  })();
+
+  /* ── Brand letter-by-letter animation (loops) ── */
+  const BRAND_WORDS   = ['AIMLOCK', 'GOLD'];
+  const COLOR_CLASSES = ['char-blue', 'char-glow-blue', 'char-red', 'char-glow-red'];
+  let brandAnimPhase  = 0;
+
+  function startBrandAnimation() { animateBrandPhase(); }
+
+  function animateBrandPhase() {
+    const container = document.getElementById('brandTitle');
+    if (!container) return;
+    container.innerHTML = '';
+    let delay = 0;
+    const colorOff = brandAnimPhase % COLOR_CLASSES.length;
+    BRAND_WORDS.forEach((word, wi) => {
+      const row = document.createElement('div');
+      row.className = 'animated-word';
+      word.split('').forEach((ch, ci) => {
+        const span = document.createElement('span');
+        span.className = 'animated-char ' + COLOR_CLASSES[(colorOff + ci + wi * 5) % COLOR_CLASSES.length];
+        span.textContent = ch;
+        span.style.animationDelay = delay + 'ms';
+        row.appendChild(span);
+        delay += 68;
+      });
+      container.appendChild(row);
+      delay += 38;
+    });
+    brandAnimPhase++;
+    setTimeout(animateBrandPhase, delay + 860);
+  }
+
+  /* ── Key input logic ── */
+  const keyInput    = document.getElementById('keyInput');
+  const eyeBtn      = document.getElementById('eyeBtn');
+  const eyeIcon     = document.getElementById('eyeIcon');
+  const capsWarn    = document.getElementById('capsWarn');
+  const statusBox   = document.getElementById('keyStatusBox');
+  const statusIcon  = document.getElementById('keyStatusIcon');
+  const statusTitle = document.getElementById('keyStatusTitle');
+  const statusDesc  = document.getElementById('keyStatusDesc');
+  const continueBtn = document.getElementById('keyContinueBtn');
+
+  let keyValidated      = false;
+  let keyTimer          = null;
+  let savedKeyCheckDone = false;
+
+  /* Eye toggle */
+  if (eyeBtn) {
+    eyeBtn.addEventListener('click', () => {
+      const showing = keyInput.classList.toggle('show-text');
+      eyeIcon.className = showing ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+    });
+  }
+
+  if (continueBtn) {
+    continueBtn.addEventListener('click', () => {
+      const val = keyInput.value.trim();
+      if (!val) {
+        showToast('Vui lòng nhập Key trước!');
+        setStatus('warn', 'fa-solid fa-key', 'Chưa nhập key',
+          'Vui lòng nhập key trước khi xác thực.');
+        return;
+      }
+
+      if (val.length < 6) {
+        showToast('Nhập ít nhất 6 ký tự!');
+        setStatus('warn', 'fa-solid fa-key', 'Key chưa đủ ký tự',
+          'Nhập ít nhất 6 ký tự rồi nhấn Xác thực.');
+        return;
+      }
+
+      if (!keyValidated) {
+        checkKey(val);
+        return;
+      }
+
+      showTab('app');
+      initApp();
+    });
+
+    resetContinueButton();
+  }
+
+  /* Caps Lock */
+  document.addEventListener('keydown', e => {
+    if (e.getModifierState) {
+      capsWarn.classList.toggle('visible', e.getModifierState('CapsLock'));
+    }
+  });
+
+  /* Set status state */
+  function setStatus(state, icon, title, desc) {
+    statusBox.className  = 'key-status-box ' + state;
+    statusIcon.className = icon + ' key-status-icon';
+    statusTitle.textContent = title;
+    statusDesc.textContent  = desc;
+  }
+
+  function resetContinueButton() {
+    if (!continueBtn) return;
+    continueBtn.disabled = false;
+    continueBtn.textContent = 'Xác thực';
+  }
+
+  function showContinueButton() {
+    if (!continueBtn) return;
+    continueBtn.disabled = false;
+    continueBtn.textContent = 'Tiếp tục';
+  }
+
+  /* Input handler */
+  if (keyInput) {
+    keyInput.addEventListener('input', () => {
+      if (keyValidated) return;
+      const val = keyInput.value.trim();
+      keyInput.classList.remove('valid', 'invalid');
+
+      if (!val) {
+        resetContinueButton();
+        setStatus('idle', 'fa-solid fa-key', 'Chưa nhập key',
+          'Vui lòng nhập key vĩnh viễn để kích hoạt.');
+        return;
+      }
+
+      if (val.length < 6) {
+        resetContinueButton();
+        setStatus('checking', 'fa-solid fa-key', 'Key chưa đủ ký tự',
+          'Nhập ít nhất 6 ký tự rồi nhấn Xác thực.');
+        return;
+      }
+
+      continueBtn.disabled = false;
+      continueBtn.textContent = 'Xác thực';
+      setStatus('idle', 'fa-solid fa-key', 'Sẵn sàng xác thực',
+        'Nhấn nút Xác thực để kiểm tra key.');
+    });
+
+    /* Paste */
+    keyInput.addEventListener('paste', () => {
+      setTimeout(() => {
+        const val = keyInput.value.trim();
+        if (val.length >= 6) {
+          continueBtn.disabled = false;
+          continueBtn.textContent = 'Xác thực';
+          setStatus('idle', 'fa-solid fa-key', 'Sẵn sàng xác thực',
+            'Nhấn nút Xác thực để kiểm tra key.');
+        }
+      }, 50);
+    });
+  }
+
+  /* Auto-fill key đã lưu */
+  (function autoFillSavedKey() {
+    const saved = localStorage.getItem('_pl_saved_key');
+    if (saved && keyInput) {
+      keyInput.value = saved;
+      setStatus('checking', 'fa-solid fa-key', 'Đang tự động xác thực…',
+        'Đã tìm thấy key đã lưu, đang kiểm tra…');
+      setTimeout(() => checkKey(saved), 500);
+    } else {
+      savedKeyCheckDone = true;
+    }
+  })();
+
+  /* Toast message (simple) */
+  function showToast(msg) {
+    const old = document.querySelector('.toast-msg');
+    if (old) old.remove();
+    const div = document.createElement('div');
+    div.className = 'toast-msg';
+    div.style.cssText = `
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.85); color: #fff; padding: 10px 20px;
+      border-radius: 10px; font-size: 12px; font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.1); z-index: 99999;
+      backdrop-filter: blur(6px); animation: fadeInAnim 0.3s ease;
+    `;
+    div.textContent = msg;
+    document.body.appendChild(div);
+    setTimeout(() => { div.style.opacity = '0'; div.style.transition = 'opacity 0.4s'; setTimeout(() => div.remove(), 500); }, 2200);
+  }
+
+  /* ════════════════════════════════════
+     APP DASHBOARD — Chart + Particles + Buttons
+  ════════════════════════════════════ */
+  let appInited = false;
+
+  function initApp() {
+    console.log("initApp called", appInited);
+    if (appInited) return;
+    appInited = true;
+    initParticles();
+    initChart();
+    startMetrics();
+    initFeatParticles();
+    initActionParticles('actionCanvas0');
+    initActionParticles('actionCanvas1');
+  }
+
+  /* ── Green falling particles (chart card) ── */
+  function initParticles() {
+    const canvas = document.getElementById('particleCanvas');
+    if (!canvas) return;
+    const card   = canvas.parentElement;
+    const ctx    = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width  = card.offsetWidth;
+      canvas.height = card.offsetHeight;
+    }
+    resize();
+    new ResizeObserver(resize).observe(card);
+
+    const DOTS = 38;
+    const dots = Array.from({ length: DOTS }, () => makeDot(canvas));
+
+    function makeDot(c, fromTop) {
+      return {
+        x:     Math.random() * c.width,
+        y:     fromTop ? -6 : Math.random() * c.height,
+        r:     Math.random() * 1.8 + 0.6,
+        speed: Math.random() * 0.55 + 0.2,
+        alpha: Math.random() * 0.45 + 0.1
+      };
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dots.forEach(d => {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(76,175,80,${d.alpha})`;
+        ctx.fill();
+        d.y += d.speed;
+        if (d.y > canvas.height + 8) {
+          Object.assign(d, makeDot(canvas, true));
+        }
+      });
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+  }
+
+  /* ── Red falling particles (features panel) ── */
+  function initFeatParticles() {
+    const canvas = document.getElementById('featParticleCanvas');
+    if (!canvas) {
+        console.warn("featParticleCanvas not found");
+        return;
+    }
+
+    const panel = canvas.parentElement;
+    const ctx    = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width  = panel.offsetWidth;
+      canvas.height = panel.offsetHeight;
+    }
+    resize();
+    new ResizeObserver(resize).observe(panel);
+
+    const DOTS = 55;
+    const dots = Array.from({ length: DOTS }, () => makeFeatDot(canvas));
+
+    function makeFeatDot(c, fromTop) {
+      const r = Math.random() * 2.2 + 0.5;
+      return {
+        x:     Math.random() * c.width,
+        y:     fromTop ? -r * 2 : Math.random() * c.height,
+        r:     r,
+        speed: Math.random() * 0.7 + 0.25,
+        alpha: Math.random() * 0.5 + 0.1,
+        drift: (Math.random() - 0.5) * 0.3
+      };
+    }
+
+    function drawFeatParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dots.forEach(d => {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(229,57,53,${d.alpha})`;
+        ctx.fill();
+        d.y += d.speed;
+        d.x += d.drift;
+        if (d.y > canvas.height + 10 || d.x < -10 || d.x > canvas.width + 10) {
+          Object.assign(d, makeFeatDot(canvas, true));
+        }
+      });
+      requestAnimationFrame(drawFeatParticles);
+    }
+    drawFeatParticles();
+  }
+
+  /* ── Live line chart ── */
+  function initChart() {
+    const canvas = document.getElementById('chartCanvas');
+    if (!canvas) return;
+    const card   = canvas.closest('.chart-card');
+    const ctx    = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width  = card.offsetWidth;
+      canvas.height = 140;
+    }
+    resize();
+    new ResizeObserver(resize).observe(card);
+
+    const MAX_POINTS = 60;
+    const series = {
+      cpu:  Array.from({ length: MAX_POINTS }, () => randMetric(25, 75)),
+      ram:  Array.from({ length: MAX_POINTS }, () => randMetric(40, 80)),
+      ping: Array.from({ length: MAX_POINTS }, () => randMetric(8, 35))
+    };
+
+    function randMetric(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    function nudge(arr, min, max) {
+      const last = arr[arr.length - 1];
+      let next = last + (Math.random() - 0.5) * 8;
+      next = Math.max(min, Math.min(max, next));
+      arr.push(next);
+      if (arr.length > MAX_POINTS) arr.shift();
+    }
+
+    function drawLine(data, color, fillColor, min, max) {
+      const W = canvas.width, H = canvas.height;
+      const pad = { t: 8, b: 6 };
+      const range = max - min;
+
+      const points = data.map((v, i) => ({
+        x: (i / (MAX_POINTS - 1)) * W,
+        y: H - pad.b - ((v - min) / range) * (H - pad.t - pad.b)
+      }));
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, H - pad.b);
+      points.forEach(p => ctx.lineTo(p.x, p.y));
+      ctx.lineTo(points[points.length - 1].x, H - pad.b);
+      ctx.closePath();
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, fillColor);
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        const cp = {
+          x: (points[i - 1].x + points[i].x) / 2,
+          y: (points[i - 1].y + points[i].y) / 2
+        };
+        ctx.quadraticCurveTo(points[i - 1].x, points[i - 1].y, cp.x, cp.y);
+      }
+      ctx.strokeStyle = color;
+      ctx.lineWidth   = 1.5;
+      ctx.stroke();
+    }
+
+    function drawChart() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = 'rgba(21,101,192,0.1)';
+      ctx.lineWidth   = 1;
+      [0.25, 0.5, 0.75].forEach(t => {
+        const y = t * canvas.height;
+        ctx.beginPath();
+        ctx.moveTo(0, y); ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      });
+
+      drawLine(series.cpu,  '#42a5f5', 'rgba(66,165,245,0.12)', 0, 100);
+      drawLine(series.ram,  '#fb8c00', 'rgba(251,140,0,0.09)',   0, 100);
+      drawLine(series.ping, '#43a047', 'rgba(67,160,71,0.09)',   0, 50);
+
+      nudge(series.cpu,  20, 85);
+      nudge(series.ram,  35, 85);
+      nudge(series.ping, 5,  45);
+
+      const cpu  = Math.round(series.cpu[series.cpu.length - 1]);
+      const ram  = Math.round(series.ram[series.ram.length - 1]);
+      const ping = Math.round(series.ping[series.ping.length - 1]);
+
+      const cpuEl = document.getElementById('cpuVal');
+      const ramEl = document.getElementById('ramVal');
+      const pingEl = document.getElementById('pingVal');
+      if (cpuEl) cpuEl.textContent = cpu + '%';
+      if (ramEl) ramEl.textContent = ram + '%';
+      if (pingEl) pingEl.textContent = ping + 'ms';
+
+      setTimeout(drawChart, 600);
+    }
+    drawChart();
+  }
+
+  /* ── Metric bar ── */
+  function startMetrics() {
+    function update() {
+      const cpuEl = document.getElementById('cpuVal');
+      const ramEl = document.getElementById('ramVal');
+      const pingEl = document.getElementById('pingVal');
+      const cmCpu = document.getElementById('cmCpu');
+      const cmRam = document.getElementById('cmRam');
+      const cmPing = document.getElementById('cmPing');
+      if (cpuEl && cmCpu) cmCpu.textContent = cpuEl.textContent;
+      if (ramEl && cmRam) cmRam.textContent = ramEl.textContent;
+      if (pingEl && cmPing) cmPing.textContent = pingEl.textContent;
+      setTimeout(update, 650);
+    }
+    update();
+  }
+
+  /* ── Function button toggle ── */
+  const funcState = { rocket: false, cpu: false };
+  const funcTimers = {};
+
+  function toggleFunc(id) {
+    if (funcTimers[id]) return;
+
+    const btn    = document.getElementById('btn' + id.charAt(0).toUpperCase() + id.slice(1));
+    const label  = document.getElementById('label' + id.charAt(0).toUpperCase() + id.slice(1));
+    const status = document.getElementById('status' + id.charAt(0).toUpperCase() + id.slice(1));
+
+    if (!btn) return;
+    btn.classList.add('loading');
+    btn.classList.remove('active');
+    status.textContent = 'Đang xử lý…';
+
+    const delay = 2000 + Math.random() * 1000;
+
+    funcTimers[id] = setTimeout(() => {
+      funcTimers[id] = null;
+      btn.classList.remove('loading');
+      funcState[id] = !funcState[id];
+
+      if (funcState[id]) {
+        btn.classList.add('active');
+        status.textContent = 'BẬT';
+      } else {
+        btn.classList.remove('active');
+        status.textContent = 'TẮT';
+      }
+    }, delay);
+  }
+
+  /* ══════════════════════════════════════════
+     CODER CONSOLE — Feature panel switch logic
+  ══════════════════════════════════════════ */
+
+  /* Cheat code lines per feature index */
+  const FEAT_CODE_LINES = [
+    /* 0 — Tăng Tốc FPS */
+    [
+      { cls: 'cl-cyan',   prefix: '[SYS]',  text: 'Initializing FPS_BOOSTER module...' },
+      { cls: 'cl-blue',   prefix: '[MEM]',  text: 'Allocating render buffer: 0xFF4A2C → 0xFF8E00' },
+      { cls: 'cl-green',  prefix: '[OK]',   text: 'Frame limiter DISABLED — unlock_fps(true)' },
+      { cls: 'cl-yellow', prefix: '[PATCH]',text: 'Injecting: d3d11.dll → hook_present() ✓' },
+      { cls: 'cl-green',  prefix: '[RUN]',  text: 'FPS cap removed. Target: UNLIMITED ∞' },
+    ],
+    /* 1 — Chống Giật Lag */
+    [
+      { cls: 'cl-cyan',   prefix: '[NET]',  text: 'Scanning network stack...' },
+      { cls: 'cl-blue',   prefix: '[UDP]',  text: 'Intercepting packets: port 7777 → patched' },
+      { cls: 'cl-yellow', prefix: '[QOS]',  text: 'Priority override: GAME_TRAFFIC = REALTIME' },
+      { cls: 'cl-green',  prefix: '[OK]',   text: 'Anti-lag active. Ping reduced by ~62%' },
+      { cls: 'cl-cyan',   prefix: '[LOOP]', text: 'Buffer flush interval: 1ms ← 16ms' },
+    ],
+    /* 2 — Tự Động Ngắm */
+    [
+      { cls: 'cl-red',    prefix: '[AIM]',  text: 'Loading aimbot_core.dll...' },
+      { cls: 'cl-yellow', prefix: '[SCAN]', text: 'Entity scan radius: 360° / range: 9999u' },
+      { cls: 'cl-red',    prefix: '[LOCK]', text: 'Target lock acquired: bone_head priority' },
+      { cls: 'cl-green',  prefix: '[OK]',   text: 'Auto-aim ARMED — smooth: 0.12, fov: 180' },
+      { cls: 'cl-cyan',   prefix: '[FOV]',  text: 'Crosshair correction: active ✓' },
+    ],
+    /* 3 — Chống Phát Hiện */
+    [
+      { cls: 'cl-yellow', prefix: '[HIDE]', text: 'Anti-cheat bypass initializing...' },
+      { cls: 'cl-blue',   prefix: '[SPY]',  text: 'Hooking: EasyAntiCheat → spoofed handle' },
+      { cls: 'cl-cyan',   prefix: '[CLK]',  text: 'Timestamp forging: QueryPerformanceCounter ✓' },
+      { cls: 'cl-green',  prefix: '[OK]',   text: 'Stealth mode ON — detection probability: 0.0%' },
+      { cls: 'cl-gray',   prefix: '[LOG]',  text: 'Erasing telemetry traces...' },
+    ],
+    /* 4 — Radar Bản Đồ */
+    [
+      { cls: 'cl-red',    prefix: '[MAP]',  text: 'Hooking minimap render thread...' },
+      { cls: 'cl-yellow', prefix: '[READ]', text: 'Reading entity list from game memory...' },
+      { cls: 'cl-cyan',   prefix: '[DRAW]', text: 'Injecting radar overlay: ESP_radar_v3' },
+      { cls: 'cl-green',  prefix: '[OK]',   text: 'All enemies visible. Refresh: 16ms ✓' },
+      { cls: 'cl-blue',   prefix: '[POS]',  text: 'Coords streaming: x,y,z → radar HUD' },
+    ],
+    /* 5 — Khuếch Đại Sát Thương */
+    [
+      { cls: 'cl-red',    prefix: '[DMG]',  text: 'Damage multiplier module loading...' },
+      { cls: 'cl-yellow', prefix: '[HOOK]', text: 'Patching: DealDamage() → multiplier x3.5' },
+      { cls: 'cl-cyan',   prefix: '[PTR]',  text: 'Writing: 0x00C3F2A0 = 0x41600000 (14.0f)' },
+      { cls: 'cl-green',  prefix: '[OK]',   text: 'One-shot mode ENABLED — damage cap OFF' },
+      { cls: 'cl-red',    prefix: '[BOOM]', text: 'Bullet spread = 0.0 / recoil = nullified' },
+    ],
+    /* 6 — Bảo Vệ Tài Khoản */
+    [
+      { cls: 'cl-cyan',   prefix: '[SEC]',  text: 'Account shield initializing...' },
+      { cls: 'cl-blue',   prefix: '[AUTH]', text: 'Spoofing HWID: original → random_hash_x9' },
+      { cls: 'cl-yellow', prefix: '[BAN]',  text: 'Intercepting ban_check() → return false' },
+      { cls: 'cl-green',  prefix: '[OK]',   text: 'Shield ACTIVE. Ban probability: 0.0% ✓' },
+      { cls: 'cl-gray',   prefix: '[CLR]',  text: 'Log history sanitized. Account clean.' },
+    ],
+  ];
+
+  const FEAT_NAMES = [
+    'FPS_BOOSTER', 'ANTI_LAG', 'AUTO_AIM',
+    'STEALTH', 'RADAR_ESP', 'DMG_AMP', 'ACC_SHIELD'
+  ];
+
+  let coderActiveCount = 0;
+
+  /* Timestamp helper */
+  function coderTs() {
+    const d = new Date();
+    const h = String(d.getHours()).padStart(2,'0');
+    const m = String(d.getMinutes()).padStart(2,'0');
+    const s = String(d.getSeconds()).padStart(2,'0');
+    return `${h}:${m}:${s}`;
+  }
+
+  /* Push a single line into the coder body */
+  function pushCoderLine(ts, cls, prefix, text) {
+    const idle = document.getElementById('coderIdle');
+    if (idle) idle.remove();
+
+    const body = document.getElementById('coderBody');
+    if (!body) return;
+    const line = document.createElement('div');
+    line.className = 'coder-line';
+    line.innerHTML =
+      `<span class="coder-line-ts">[${ts}]</span>` +
+      `<span class="coder-line-prefix ${cls}">${prefix}</span>` +
+      `<span class="coder-line-text ${cls}">${text}</span>`;
+    body.appendChild(line);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  /* Push lines with staggered delay */
+  function pushFeatureLines(index, isOn) {
+    const body = document.getElementById('coderBody');
+    const led  = document.getElementById('coderLed');
+    if (!body || !led) return;
+    const ts   = coderTs();
+    const name = FEAT_NAMES[index];
+
+    if (isOn) {
+      /* Header separator */
+      pushCoderLine(ts, 'cl-gray', '─────', `Module ${name} activating ─────────────`);
+      FEAT_CODE_LINES[index].forEach((ln, i) => {
+        setTimeout(() => {
+          pushCoderLine(coderTs(), ln.cls, ln.prefix, ln.text);
+        }, i * 120);
+      });
+      /* Final cursor line */
+      setTimeout(() => {
+        const idle2 = document.createElement('div');
+        idle2.className = 'coder-line';
+        idle2.innerHTML = `<span class="coder-line-ts">[${coderTs()}]</span> <span class="coder-line-prefix cl-green">[DONE]</span> <span class="coder-line-text cl-green">${name} fully loaded<span class="coder-cursor"></span></span>`;
+        idle2.style.opacity = '0';
+        idle2.style.animation = 'codeLineIn 0.18s ease forwards';
+        body.appendChild(idle2);
+        body.scrollTop = body.scrollHeight;
+      }, FEAT_CODE_LINES[index].length * 120 + 80);
+    } else {
+      pushCoderLine(ts, 'cl-gray', '[OFF]', `Module ${name} deactivated.`);
+    }
+
+    /* Update LED */
+    if (coderActiveCount > 0) {
+      led.classList.add('active');
+    } else {
+      led.classList.remove('active');
+      /* Show idle if no lines */
+      if (body.children.length === 0) {
+        body.innerHTML = '<div class="coder-idle" id="coderIdle"><svg class="coder-idle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="16" rx="2" stroke="#42a5f5" stroke-width="1.5"/><path d="M6 8L10 12L6 16" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 16H18" stroke="#42a5f5" stroke-width="1.5" stroke-linecap="round"/></svg><span class="coder-idle-text">// Bật chức năng để khởi động module...<span class="coder-cursor"></span></span></div>';
+      }
+    }
+  }
+
+  /* ── Yellow falling particles (action boxes) ── */
+  function initActionParticles(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const box = canvas.parentElement;
+    const ctx  = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width  = box.offsetWidth;
+      canvas.height = box.offsetHeight;
+    }
+    resize();
+    new ResizeObserver(resize).observe(box);
+
+    const DOTS = 32;
+    const dots = Array.from({ length: DOTS }, () => makeYDot(canvas));
+
+    function makeYDot(c, fromTop) {
+      return {
+        x:     Math.random() * c.width,
+        y:     fromTop ? -4 : Math.random() * c.height,
+        r:     Math.random() * 1.6 + 0.5,
+        speed: Math.random() * 0.5 + 0.18,
+        alpha: Math.random() * 0.5 + 0.08,
+        drift: (Math.random() - 0.5) * 0.25
+      };
+    }
+
+    function drawYellow() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dots.forEach(d => {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,214,0,${d.alpha})`;
+        ctx.fill();
+        d.y += d.speed;
+        d.x += d.drift;
+        if (d.y > canvas.height + 6 || d.x < -8 || d.x > canvas.width + 8) {
+          Object.assign(d, makeYDot(canvas, true));
+        }
+      });
+      requestAnimationFrame(drawYellow);
+    }
+    drawYellow();
+  }
+
+  /* ── Action button toggle (rocket → checkmark) ── */
+  const actionBtnState = [false, false];
+
+  function toggleActionBtn(index) {
+    const btn   = document.getElementById('actionBtn' + index);
+    const label = document.getElementById('actionBtnLabel' + index);
+    if (!btn) return;
+
+    actionBtnState[index] = !actionBtnState[index];
+
+    if (actionBtnState[index]) {
+      btn.classList.add('done');
+      label.textContent = 'Đã Bật';
+    } else {
+      btn.classList.remove('done');
+      label.textContent = 'Kích Hoạt';
+    }
+  }
+
+  /* ── Feature panel switch toggle ── */
+  function toggleFeat(index, checkbox) {
+    const item = document.getElementById('feat-' + index);
+    const tag  = document.getElementById('feat-tag-' + index);
+    const led  = document.getElementById('coderLed');
+    if (!item || !tag) return;
+
+    if (checkbox.checked) {
+      item.classList.add('feat-on');
+      tag.textContent = 'BẬT';
+      coderActiveCount++;
+      if (led) led.classList.add('active');
+      pushFeatureLines(index, true);
+    } else {
+      item.classList.remove('feat-on');
+      tag.textContent = 'TẮT';
+      coderActiveCount = Math.max(0, coderActiveCount - 1);
+      pushFeatureLines(index, false);
+      if (coderActiveCount === 0 && led) {
+        led.classList.remove('active');
+      }
+    }
+  }
+
+  /* ════════════════════════════════════
+     GAME PICKER LOGIC
+  ════════════════════════════════════ */
+  const GP_GAMES = [
+    {
+      name: 'Free Fire MAX',
+      desc: 'Phiên bản đồ họa cao cấp nhất',
+      version: 'v2.104.1',
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzmHWwLgfeON7QGc4SXIJyDX9-GOPPqOlJVw&s',
+      badge: 'MAX ULTRA'
+    },
+    {
+      name: 'Free Fire',
+      desc: 'Phiên bản chuẩn phổ biến nhất',
+      version: 'v1.104.1',
+      img: 'https://yt3.ggpht.com/TzJtq9aNxISDxweM00n29oyf1BNQygKmVk5wFoHpTr0_wSc7zN77UZvtckVqu5TQLU1X_juIF5Hc_oU=s1024-c-fcrop64=1,007b0000ff84ffff-nd-v1',
+      badge: 'STANDARD'
+    }
+  ];
+
+  let gpModalOpen  = false;
+  let gpCanvasAnim = null;
+
+  function openGameModal() {
+    const overlay = document.getElementById('gpModalOverlay');
+    if (!overlay) return;
+    overlay.classList.add('open');
+    gpModalOpen = true;
+    startLightningCanvas();
+  }
+
+  function closeGameModal() {
+    const overlay = document.getElementById('gpModalOverlay');
+    if (!overlay) return;
+    overlay.classList.remove('open');
+    gpModalOpen = false;
+  }
+
+  function handleModalOverlayClick(e) {
+    if (e.target === document.getElementById('gpModalOverlay')) {
+      closeGameModal();
+    }
+  }
+
+  function selectGame(idx) {
+    const game = GP_GAMES[idx];
+    if (!game) return;
+
+    /* Update circle button */
+    const circleBtn = document.getElementById('gpCircleBtn');
+    const selImg    = document.getElementById('gpSelectedImg');
+    if (!circleBtn || !selImg) return;
+    circleBtn.classList.add('selected');
+    selImg.src = game.img;
+    selImg.alt = game.name;
+
+    /* Update label */
+    const label = document.getElementById('gpLabel');
+    if (label) label.textContent = game.name;
+
+    /* Show info bar */
+    const infoImg = document.getElementById('gpInfoImg');
+    const infoName = document.getElementById('gpInfoName');
+    const infoStatus = document.getElementById('gpInfoStatus');
+    const infoVersion = document.getElementById('gpInfoVersion');
+    const infoBar = document.getElementById('gpInfoBar');
+    if (infoImg) infoImg.src = game.img;
+    if (infoImg) infoImg.alt = game.name;
+    if (infoName) infoName.textContent = game.name;
+    if (infoStatus) infoStatus.textContent = 'Đang Hoạt Động';
+    if (infoVersion) infoVersion.textContent = game.version;
+    if (infoBar) infoBar.classList.add('visible');
+
+    /* Close modal */
+    closeGameModal();
+  }
+
+  /* ── Lightning + purple dots canvas ── */
+  function startLightningCanvas() {
+    const canvas = document.getElementById('gpModalCanvas');
+    if (!canvas) return;
+    const modal = canvas.parentElement;
+    const ctx   = canvas.getContext('2d');
+
+    canvas.width  = modal.offsetWidth;
+    canvas.height = modal.offsetHeight;
+
+    const W = canvas.width;
+    const H = canvas.height;
+
+    /* Purple falling dots */
+    const PDOTS = 45;
+    const pdots = Array.from({ length: PDOTS }, () => ({
+      x:     Math.random() * W,
+      y:     Math.random() * H,
+      r:     Math.random() * 1.5 + 0.4,
+      speed: Math.random() * 0.7 + 0.2,
+      alpha: Math.random() * 0.45 + 0.06,
+      drift: (Math.random() - 0.5) * 0.18
+    }));
+
+    /* Lightning bolts */
+    let lightningTimer = 0;
+    let activeBolts   = [];
+
+    function makeBolt() {
+      const x  = Math.random() * W;
+      const segs = Math.floor(Math.random() * 5) + 4;
+      const pts  = [{ x, y: 0 }];
+      for (let i = 1; i <= segs; i++) {
+        pts.push({
+          x: pts[i-1].x + (Math.random() - 0.5) * 60,
+          y: (H / segs) * i
+        });
+      }
+      return { pts, life: 12, alpha: 0.7 + Math.random() * 0.3 };
+    }
+
+    let lastTime = 0;
+    function draw(ts) {
+      if (!gpModalOpen) return;
+      const dt = ts - lastTime;
+      lastTime = ts;
+
+      ctx.clearRect(0, 0, W, H);
+
+      /* Draw purple dots */
+      pdots.forEach(d => {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(167,139,250,${d.alpha})`;
+        ctx.fill();
+        d.y += d.speed;
+        d.x += d.drift;
+        if (d.y > H + 6 || d.x < -6 || d.x > W + 6) {
+          d.y = -4;
+          d.x = Math.random() * W;
+        }
+      });
+
+      /* Lightning */
+      lightningTimer -= dt;
+      if (lightningTimer <= 0) {
+        activeBolts.push(makeBolt());
+        if (Math.random() < 0.35) activeBolts.push(makeBolt());
+        lightningTimer = 900 + Math.random() * 1200;
+      }
+      activeBolts = activeBolts.filter(b => b.life > 0);
+      activeBolts.forEach(b => {
+        ctx.save();
+        ctx.globalAlpha = (b.life / 12) * b.alpha * 0.65;
+        ctx.strokeStyle = `rgba(167,139,250,${ctx.globalAlpha})`;
+        ctx.shadowColor = 'rgba(167,139,250,0.8)';
+        ctx.shadowBlur  = 6;
+        ctx.lineWidth   = 1;
+        ctx.beginPath();
+        ctx.moveTo(b.pts[0].x, b.pts[0].y);
+        b.pts.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+        ctx.stroke();
+        ctx.restore();
+        b.life--;
+      });
+
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  }
+
+  /* ════════════════════════════════════
+     RED FUNCTION BOX — Radio + Top Modal
+  ════════════════════════════════════ */
+  const funcRadioState = [false, false, false, false];
+
+  function toggleFuncRadio(index) {
+    funcRadioState.forEach((on, i) => {
+      if (i !== index && on) {
+        funcRadioState[i] = false;
+        const row = document.getElementById('fRadio' + i);
+        if (row) row.classList.remove('active');
+      }
+    });
+
+    funcRadioState[index] = !funcRadioState[index];
+    const row = document.getElementById('fRadio' + index);
+
+    if (funcRadioState[index]) {
+      if (row) row.classList.add('active');
+      openFuncTopModal(index);
+    } else {
+      if (row) row.classList.remove('active');
+    }
+  }
+
+  const FUNC_NAMES = ['Aimbot Precision', 'Anti-Recoil Pro', 'Speed Hack X2', 'Wall-Hack ESP'];
+
+  function openFuncTopModal(index) {
+    const overlay  = document.getElementById('funcTopModalOverlay');
+    const gear     = document.getElementById('ftmGear');
+    const check    = document.getElementById('ftmCheck');
+    const label    = document.getElementById('ftmLabel');
+    const sub      = document.getElementById('ftmSub');
+    const barFill  = document.getElementById('ftmBarFill');
+    if (!overlay) return;
+
+    /* Reset state */
+    if (gear) gear.classList.remove('hide');
+    if (check) check.classList.remove('show');
+    if (barFill) {
+      barFill.style.transition = 'none';
+      barFill.style.width = '0%';
+    }
+    if (label) label.textContent = 'Đang kích hoạt module…';
+    if (sub) sub.textContent   = FUNC_NAMES[index] + ' — initializing…';
+
+    overlay.classList.add('open');
+
+    /* Kick off progress bar */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (barFill) {
+          barFill.style.transition = 'width 1.5s cubic-bezier(0.4,0,0.2,1)';
+          barFill.style.width = '100%';
+        }
+      });
+    });
+
+    /* Switch to checkmark after 1.55s */
+    setTimeout(() => {
+      if (gear) gear.classList.add('hide');
+      if (check) check.classList.add('show');
+      if (label) label.textContent = 'Kích hoạt thành công!';
+      if (sub) sub.textContent   = FUNC_NAMES[index] + ' — đang chạy';
+    }, 1550);
+
+    /* Auto-close after 2.7s */
+    setTimeout(() => overlay.classList.remove('open'), 2700);
+  }
+
+  /* ════════════════════════════════════
+     INJECT REGLOG v1
+  ════════════════════════════════════ */
+  const GUNS = [
+    { name: 'MP40',   color: '#42a5f5' },
+    { name: 'UMP',    color: '#66bb6a' },
+    { name: 'SCAR',   color: '#ffa726' },
+    { name: 'AK47',   color: '#ef5350' },
+    { name: 'P90',    color: '#ab47bc' },
+    { name: 'M1887',  color: '#26c6da' },
+    { name: 'M1014',  color: '#ffee58' }
+  ];
+
+  let injectActive = false;
+  const injectTimers = [];
+
+  /* Build gun grid once */
+  (function buildGunGrid() {
+    const grid = document.getElementById('injectGuns');
+    if (!grid) return;
+    GUNS.forEach((g, i) => {
+      const slot = document.createElement('div');
+      slot.className = 'gun-slot';
+      slot.id = 'gunSlot' + i;
+      slot.innerHTML = `
+        <div class="gun-icon-wrap" id="gunWrap${i}">
+          <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="9" width="22" height="9" rx="2.5" fill="${g.color}" opacity="0.85"/>
+            <rect x="26" y="11" width="16" height="5" rx="1.5" fill="${g.color}"/>
+            <path d="M10 18 L9 27 Q9 28.5 10.5 28.5 L15.5 28.5 Q17 28.5 17 27 L16 18 Z" fill="${g.color}" opacity="0.75"/>
+            <path d="M10 18 Q13.5 22.5 16 18" stroke="${g.color}" stroke-width="1" fill="none" opacity="0.55"/>
+            <rect x="15" y="6.5" width="5" height="3" rx="1" fill="${g.color}" opacity="0.45"/>
+            <rect x="0" y="12" width="5" height="5" rx="1.5" fill="${g.color}" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="gun-name-label">${g.name}</div>`;
+      grid.appendChild(slot);
+    });
+  })();
+
+  function toggleInject() {
+    injectActive = !injectActive;
+    const box = document.getElementById('injectBox');
+
+    if (injectActive) {
+      if (box) box.classList.add('active');
+      startInjectProcess();
+    } else {
+      if (box) box.classList.remove('active');
+      stopInjectProcess();
+    }
+  }
+
+  function startInjectProcess() {
+    /* Reset all guns */
+    GUNS.forEach((_, i) => {
+      const slot = document.getElementById('gunSlot' + i);
+      if (slot) slot.classList.remove('loaded');
+    });
+    const success = document.getElementById('injectSuccess');
+    if (success) success.classList.remove('visible');
+    const spinLabel = document.getElementById('injectSpinLabel');
+    const spinSvg   = document.getElementById('injectSpinSvg');
+    if (spinLabel) {
+      spinLabel.textContent = 'Đang khởi tạo inject…';
+      spinLabel.classList.remove('done');
+    }
+    if (spinSvg) spinSvg.classList.remove('paused');
+
+    /* Interval between gun appearances: 20s / (7 guns + lead time) */
+    const interval = 2500; /* ~2.5s per gun = 17.5s total + 2.5s for success = 20s */
+
+    GUNS.forEach((gun, i) => {
+      const t = setTimeout(() => {
+        if (!injectActive) return;
+        const slot = document.getElementById('gunSlot' + i);
+        if (slot) slot.classList.add('loaded');
+        const label = document.getElementById('injectSpinLabel');
+        if (label) label.textContent = `Injecting: ${gun.name} ✓`;
+      }, interval * (i + 1));
+      injectTimers.push(t);
+    });
+
+    /* Final success at 20s */
+    const done = setTimeout(() => {
+      if (!injectActive) return;
+      const label = document.getElementById('injectSpinLabel');
+      const svg = document.getElementById('injectSpinSvg');
+      const success = document.getElementById('injectSuccess');
+      if (label) {
+        label.textContent = 'Inject hoàn tất!';
+        label.classList.add('done');
+      }
+      if (svg) svg.classList.add('paused');
+      if (success) success.classList.add('visible');
+    }, interval * GUNS.length + 2500);
+    injectTimers.push(done);
+  }
+
+  function stopInjectProcess() {
+    injectTimers.forEach(clearTimeout);
+    injectTimers.length = 0;
+    GUNS.forEach((_, i) => {
+      const slot = document.getElementById('gunSlot' + i);
+      if (slot) slot.classList.remove('loaded');
+    });
+    const success = document.getElementById('injectSuccess');
+    if (success) success.classList.remove('visible');
+    const spinLabel = document.getElementById('injectSpinLabel');
+    if (spinLabel) {
+      spinLabel.textContent = 'Đang khởi tạo inject…';
+      spinLabel.classList.remove('done');
+    }
+    const spinSvg = document.getElementById('injectSpinSvg');
+    if (spinSvg) spinSvg.classList.remove('paused');
+  }
+
+    // Chặn zoom khi dùng 2 ngón tay thu phóng (Pinch-to-zoom)
+    document.addEventListener('touchstart', function (event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // Chặn zoom khi nhấp đúp màn hình (Double-tap to zoom)
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        let now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
+</script>
+
+<!-- ══════════════════ FUNC TOP MODAL (slides from top) ══════════════════ -->
+<div class="func-top-modal-overlay" id="funcTopModalOverlay">
+  <div class="func-top-modal" id="funcTopModal">
+    <div class="func-top-modal-inner">
+      <!-- Icon: gear or checkmark -->
+      <div class="func-top-modal-icon-wrap">
+        <!-- Gear (default) -->
+        <svg class="ftm-gear" id="ftmGear" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#42a5f5" stroke-width="1.5"></path>
+          <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="#42a5f5" stroke-width="1.5"></path>
+        </svg>
+        <!-- Checkmark (success) -->
+        <svg class="ftm-check" id="ftmCheck" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="#42a5f5" stroke-width="1.5"></circle>
+          <path d="M7.5 12.5L10.5 15.5L16.5 9" stroke="#42a5f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <div class="func-top-modal-text" id="ftmLabel">Đang kích hoạt module…</div>
+      <div class="func-top-modal-sub" id="ftmSub">Vui lòng chờ trong giây lát…</div>
+      <div class="func-top-modal-bar">
+        <div class="func-top-modal-bar-fill" id="ftmBarFill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ GAME PICKER MODAL (fixed overlay) ══════════════════ -->
+<div class="gp-modal-overlay" id="gpModalOverlay" onclick="handleModalOverlayClick(event)">
+  <div class="gp-modal" id="gpModal">
+    <canvas class="gp-modal-canvas" id="gpModalCanvas"></canvas>
+    <div class="gp-modal-inner">
+
+      <!-- Header -->
+      <div class="gp-modal-header">
+        <div>
+          <div class="gp-modal-title">CHỌN GAME</div>
+          <div class="gp-modal-subtitle">Chọn phiên bản game để kích hoạt</div>
+        </div>
+        <div class="gp-modal-close" onclick="closeGameModal()">✕</div>
+      </div>
+
+      <!-- Game option 1: Free Fire MAX -->
+      <div class="gp-game-option" onclick="selectGame(0)">
+        <div class="gp-game-opt-icon-wrap">
+          <img class="gp-game-opt-icon" src="https://play-lh.googleusercontent.com/S3RRXsHreVPL1zAtB00lQQGmkxYBPT9VCMB5X_wYIXCRHXqBhWPOKI3TlSlhTBhJDA=w96-h96-rw" alt="Free Fire MAX" onerror="this.style.display='none'" style="display: none;">
+        </div>
+        <div class="gp-game-opt-text">
+          <div class="gp-game-opt-name">Free Fire MAX</div>
+          <div class="gp-game-opt-desc">Đồ họa Ultra HD, hiệu ứng cao cấp</div>
+          <div class="gp-game-opt-badge">MAX ULTRA</div>
+        </div>
+        <div class="gp-game-opt-arrow">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M3 5H7M7 5L5 3M7 5L5 7" stroke="#fca5a5" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Game option 2: Free Fire -->
+      <div class="gp-game-option" onclick="selectGame(1)">
+        <div class="gp-game-opt-icon-wrap">
+          <img class="gp-game-opt-icon" src="https://play-lh.googleusercontent.com/WWcssdzTp4BDNkHFAh5KFM5ENLmW0T9aIFpNtvsGa2RfZxrBiT1cGCe2XPHJm5nY8g=w96-h96-rw" alt="Free Fire" onerror="this.style.display='none'" style="display: none;">
+        </div>
+        <div class="gp-game-opt-text">
+          <div class="gp-game-opt-name">Free Fire</div>
+          <div class="gp-game-opt-desc">Phiên bản chuẩn, tương thích rộng rãi</div>
+          <div class="gp-game-opt-badge">STANDARD</div>
+        </div>
+        <div class="gp-game-opt-arrow">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M3 5H7M7 5L5 3M7 5L5 7" stroke="#fca5a5" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+</body></html>
