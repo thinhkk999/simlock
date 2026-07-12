@@ -4222,3 +4222,44 @@ async function checkKey(val) {
     gpModalOpen = true;
     startLightningCanvas();
   }
+
+  </div>
+  </div>
+
+  <script>
+    // Các hàm xử lý đã có sẵn
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function toggleDrop() {
+      const panel = document.getElementById('dropPanel');
+      const arrow = document.getElementById('dropArrow');
+      panel.classList.toggle('open');
+      arrow.classList.toggle('open');
+    }
+
+    // Logic xử lý Key (tiếp theo đoạn script cũ)
+    const keyInput = document.getElementById('keyInput');
+    const keyContinueBtn = document.getElementById('keyContinueBtn');
+    
+    if (keyContinueBtn) {
+      keyContinueBtn.addEventListener('click', () => {
+        if (!keyInput.value) return;
+        
+        // Giả lập trạng thái xác thực
+        keyInput.disabled = true;
+        keyContinueBtn.textContent = 'Đang kiểm tra...';
+        
+        setTimeout(() => {
+          // Logic xử lý kết quả tại đây
+          console.log("Đã xác thực key: " + keyInput.value);
+          keyContinueBtn.textContent = 'Thành công!';
+          keyContinueBtn.style.background = '#28a745';
+        }, 1500);
+      });
+    }
+  </script>
+</body>
+</html>
